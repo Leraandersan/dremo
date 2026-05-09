@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <defs>
+    <linearGradient id="dGradMark" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ff7a18"/>
+      <stop offset="35%" stop-color="#ff2d6f"/>
+      <stop offset="70%" stop-color="#c026d3"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="silhouetteMark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a0a2e"/>
+      <stop offset="100%" stop-color="#0a0510"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(15,10)">
+    <path d="M0,0 L70,0 C150,0 215,50 215,110 C215,170 150,220 70,220 L0,220 Z"
+          fill="url(#dGradMark)"/>
+    <path d="M40,40 L70,40 C130,40 175,72 175,110 C175,148 130,180 70,180 L40,180 Z"
+          fill="url(#silhouetteMark)"/>
+    <path d="M40,40 L40,180 L72,180
+             C70,170 68,158 70,148
+             C58,140 50,128 52,116
+             C54,108 60,104 65,100
+             C62,92 60,82 64,72
+             C70,58 84,50 96,48
+             C82,42 70,40 60,40 Z"
+          fill="url(#silhouetteMark)" opacity="0.95"/>
+    <path d="M108,90 L150,114 L108,138 Z" fill="#ffd1e0" opacity="0.92"/>
+  </g>
+</svg>

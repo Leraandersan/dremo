@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 280" width="800" height="280">
+  <defs>
+    <!-- D mark gradient: orange top-right -> pink -> purple bottom-left -->
+    <linearGradient id="dGrad" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ff7a18"/>
+      <stop offset="35%" stop-color="#ff2d6f"/>
+      <stop offset="70%" stop-color="#c026d3"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="silhouette" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a0a2e"/>
+      <stop offset="100%" stop-color="#0a0510"/>
+    </linearGradient>
+    <linearGradient id="wordGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#ffe1ec"/>
+    </linearGradient>
+    <linearGradient id="taglineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c026d3"/>
+      <stop offset="50%" stop-color="#ff2d6f"/>
+      <stop offset="100%" stop-color="#ff7a18"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Big stylized D with concave inner curve creating play-arrow negative space -->
+  <g transform="translate(40,30)">
+    <!-- Outer D shape -->
+    <path d="M0,0 L70,0 C150,0 215,50 215,110 C215,170 150,220 70,220 L0,220 Z"
+          fill="url(#dGrad)"/>
+    <!-- Inner cutout shaping the silhouette + play arrow space -->
+    <path d="M40,40 L70,40 C130,40 175,72 175,110 C175,148 130,180 70,180 L40,180 Z"
+          fill="url(#silhouette)"/>
+
+    <!-- Woman's profile silhouette (cheek, lip, chin curve) -->
+    <path d="M40,40
+             L40,180
+             L72,180
+             C70,170 68,158 70,148
+             C58,140 50,128 52,116
+             C54,108 60,104 65,100
+             C62,92 60,82 64,72
+             C70,58 84,50 96,48
+             C82,42 70,40 60,40 Z"
+          fill="url(#silhouette)" opacity="0.95"/>
+
+    <!-- Play triangle inside the D -->
+    <path d="M108,90 L150,114 L108,138 Z" fill="#ffd1e0" opacity="0.92"/>
+  </g>
+
+  <!-- Wordmark: Dremo -->
+  <text x="290" y="155"
+        font-family="Inter, -apple-system, Segoe UI, Roboto, sans-serif"
+        font-weight="800"
+        font-size="130"
+        letter-spacing="-4"
+        fill="url(#wordGrad)">Dremo</text>
+
+  <!-- Tagline -->
+  <text x="294" y="205"
+        font-family="Inter, -apple-system, Segoe UI, Roboto, sans-serif"
+        font-weight="700"
+        font-size="22"
+        letter-spacing="6"
+        fill="url(#taglineGrad)">DRAMA. STORIES. CONNECTIONS.</text>
+</svg>

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Browse — Dremo</title>
+<link rel="icon" type="image/svg+xml" href="logo-mark.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-mark"><img src="logo-mark.svg" alt="Dremo"/></span>
+      <span class="logo-stack">
+        <span class="logo-text">Dremo</span>
+        <span class="logo-tagline">DRAMA · STORIES · CONNECTIONS</span>
+      </span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="browse.html" class="active">Browse</a>
+      <a href="browse.html">Originals</a>
+      <a href="browse.html">Trending</a>
+      <a href="community.html">Community</a>
+    </nav>
+    <div class="search-box">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" placeholder="Search shows, genres, fandoms…" />
+    </div>
+    <button class="btn btn-ghost">Sign In</button>
+    <button class="btn btn-primary">Join Free</button>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="browse-header">
+    <h1>Browse <span style="background:var(--grad-hero);-webkit-background-clip:text;background-clip:text;color:transparent;">Everything</span></h1>
+    <p>Over 18,000 short dramas. Curated for women 25–45. Filter, sort, fall in love. Then come scream about it with the community.</p>
+  </section>
+
+  <!-- Categories -->
+  <section style="margin: 12px 0;">
+    <div class="category-bar">
+      <button class="cat-chip active">All</button>
+      <button class="cat-chip">Romance</button>
+      <button class="cat-chip">Billionaire</button>
+      <button class="cat-chip">Werewolf</button>
+      <button class="cat-chip">Revenge</button>
+      <button class="cat-chip">Thriller</button>
+      <button class="cat-chip">Mafia</button>
+      <button class="cat-chip">Fantasy</button>
+      <button class="cat-chip">Comedy</button>
+      <button class="cat-chip">High School</button>
+      <button class="cat-chip">Time Travel</button>
+      <button class="cat-chip">Family</button>
+      <button class="cat-chip">Royal</button>
+    </div>
+
+    <div class="filter-row">
+      <select class="filter-select">
+        <option>Sort: Most Popular</option>
+        <option>Newest First</option>
+        <option>Highest Rated</option>
+        <option>Most Episodes</option>
+      </select>
+      <select class="filter-select">
+        <option>Length: Any</option>
+        <option>Under 20 episodes</option>
+        <option>20–50 episodes</option>
+        <option>50+ episodes</option>
+      </select>
+      <select class="filter-select">
+        <option>Type: Any</option>
+        <option>Originals only</option>
+        <option>Licensed</option>
+        <option>Free to watch</option>
+      </select>
+      <select class="filter-select">
+        <option>Mood: Any</option>
+        <option>Steamy</option>
+        <option>Wholesome</option>
+        <option>Tense</option>
+        <option>Funny</option>
+      </select>
+    </div>
+  </section>
+
+  <!-- Big poster grid -->
+  <section style="margin-top: 20px;">
+    <div class="poster-grid">
+
+      <a href="series.html" class="show-card">
+        <div class="poster-frame">
+          <div class="poster bg-grad-1">
+            <span class="poster-art">M</span>
+            <span class="poster-badge badge-hot">🔥 #1</span>
+            <span class="poster-eps">72 EP</span>
+            <div class="poster-info"><div class="poster-title">Married to my Boss by Mistake</div><div class="poster-sub">Romance · CEO</div></div>
+          </div>
+        </div>
+        <div class="show-meta"><div class="show-name">Married to my Boss by Mistake</div><div class="show-tags"><span class="show-rating">★ 9.4</span><span class="dot"></span><span>Romance</span></div></div>
+      </a>
+
+      <a href="series.html" class="show-card">
+        <div class="poster-frame">
+          <div class="poster bg-grad-7">
+            <span class="poster-art">A</span>
+            <span class="poster-badge badge-original">ORIGINAL</span>
+            <span class="poster-eps">60 EP</span>
+            <div class="poster-info"><div class="poster-title">The Alpha's Forbidden Mate</div><div class="poster-sub">Werewolf · Fantasy</div></div>
+          </div>
+        </div>
+        <div class="show-meta"><div class="show-name">The Alpha's Forbidden Mate</div><div class="show-tags"><span class="show-rating">★ 9.5</span><span class="dot"></span><span>Werewolf</span></div></div>
+      </a>
+
+      <a href="series.html" class="show-card">
+        <div class="poster-frame">
+          <div class="poster bg-grad-2">
+            <span class="poster-art">R</span>
+            <span class="poster-badge badge-hot">🔥 HOT</span>
+            <span class="poster-eps">88 EP</span>
+            <div class="poster-info"><div class="poster-title">Revenge in Heels</div><div class="poster-sub">Drama · Revenge</div></div>
+          </div>
+        </div>
+        <div class="show-meta"><div class="show-name">Revenge in Heels</div><div class="show-tags"><span class="show-rating">★ 9.4</span><span class="dot"></span><span>Revenge</span></div></div>
+      </a>
+
+      <a href="series.html" class="show-card">
+        <div class="poster-frame">
+          <div class="poster bg-grad-3">
+            <span class="poster-art">M</span>
+            <span class="poster-eps">64 EP</span>
+            <div class="poster-info"><div class="poster-title">My Husband Is a Mafia King</div><div class="poster-sub">Mafia · Romance</div></div>
+          </div>
+        </div>
+        <div class="show-meta"><div class="show-name">My Husband Is a Mafia King</div><div class="show-tags"><span class="show-rating">★ 9.0</span><span class="dot"></span><span>Mafia</span></div></div>
+      </a>
+
+      <a href="series.html" class="show-card">
+        <div class="poster-frame">
+          <div class="poster bg-grad-9">
+            <span class="poster-art">P</span>
+            <span class="poster-badge badge-top">TOP 10</span>
+            <span class="poster-eps">50 EP</span>
+            <div class="poster-info"><div class="poster-title">Pretending to be His Wife</div><div class="poster-sub">Romance · Drama</div></div>
+          </div>
+        </div>
+        <div class="show-meta"><div class="show-name">Pretending to be His Wife</div><div class="show-tags"><span class="show-rating">★ 8.9</span><span class="dot"></span><span>Romance</span></div></div>
+      </a>
+
+      <a href="series.html" class="show-card">
+        <div class="poster-frame">
+          <div class="poster bg-grad-8">
+            <span class="poster-art">D</span>
+            <span class="poster-badge badge-original">ORIGINAL</span>
+            <span class="poster-eps">70 EP</span>
+            <div class="poster-info"><div class="poster-title">Diary of a Hidden Heiress</div><div class="poster-sub">Drama · Family</div></div>
+          </div>
+        </div>
+        <div class="show-meta"><div class="show-name">Diary of a Hidden Heiress</div><div class="show-tags"><span class="show-rating">★ 9.0</span><span class="dot"></span><span>Drama</span></div></div>
+      </a>
+
+      <a href="series.html" class="show-card">
+        <div class="poster-frame">
+          <div class="poster bg-grad-11">
+            <span class="poster-art">S</span>
+            <span class="poster-badge badge-original">ORIGINAL</span>
+            <span class="poster-eps">56 EP</span>
+            <div class="poster-info"><div class="poster-title">Second Chance with the CEO</div><div class="poster-sub">Romance · Time Travel</div></div>
+          </div>
+        </div>
+        <div class="show-meta"><div class="show-name">Second Chance with the CEO</div><div class="show-tags"><span class="show-rating">★ 9.2</span><span class="dot"></span><span>Time Travel</span></div></div>
+      </a>
+
+      <a href="series.html" class="show-card">
+        <div class="poster-frame">
+          <div class="poster bg-grad-12">
+            <span class="poster-art">F</span>
+            <span class="poster-eps">48 EP</span>
+            <div class="poster-info"><div class="poster-title">Fated to the Fire Dragon</div><div class="poster-sub">Fantasy · Romance</div></div>
+          </div>
+        </div>
+        <div class="show-meta"><div class="show-name">Fated to the Fire Dragon</div><div class="show-tags"><span class="show-rating">★ 8.9</span><span class="dot"></span><span>Fantasy</span></div></div>
+      </a>
+
+      <a href="series.html" class="show-card">
+        <div class="poster-frame">
+          <div class="poster bg-grad-5">
+            <span class="poster-art">L</span>
+            <span class="poster-badge badge-new">NEW</span>
+            <span class="poster-eps">30 EP</span>
+            <div class="poster-info"><div class="poster-title">Love at First Lie</div><div class="poster-sub">Romance · Drama</div></div>
+          </div>
+        </div>
+        <div class="show-meta"><div class="show-name">Love at First Lie</div><div class="show-tags"><span class="show-rating">★ 9.1</span><span class="dot"></span><span>Romance</span></div></div>
+      </a>
+
+      <a href="series.html" class="show-card">
+        <div class="poster-frame">
+          <div class="poster bg-grad-6">
+            <span class="poster-art">B</span>
+            <span class="poster-badge badge-new">NEW</span>
+            <span class="poster-eps">24 EP</span>
+            <div class="poster-info"><div class="poster-title">Bound by Blood Ties</div><div class="poster-sub">Mafia · Thriller</div></div>
+          </div>
+        </div>
+        <div class="show-meta"><div class="show-name">Bound by Blood Ties</div><div class="show-tags"><span class="show-rating">★ 8.8</span><span class="dot"></span><span>Mafia</span></div></div>
+      </a>
+
+      <a href="series.html" class="show-card">
+        <div class="poster-frame">
+          <div class="poster bg-grad-10">
+            <span class="poster-art">C</span>
+            <span class="poster-badge badge-hot">🔥 HOT</span>
+            <span class="poster-eps">40 EP</span>
+            <div class="poster-info"><div class="poster-title">Cinderella's Revenge</div><div class="poster-sub">Drama · Revenge</div></div>
+          </div>
+        </div>
+        <div class="show-meta"><div class="show-name">Cinderella's Revenge</div><div class="show-tags"><span class="show-rating">★ 9.3</span><span class="dot"></span><span>Revenge</span></div></div>
+      </a>
+
+      <a href="series.html" class="show-card">
+        <div class="poster-frame">
+          <div class="poster bg-grad-4">
+            <span class="poster-art">H</span>
+            <span class="poster-badge badge-new">NEW</span>
+            <span class="poster-eps">32 EP</span>
+            <div class="poster-info"><div class="poster-title">His Hidden Princess</div><div class="poster-sub">Royal · Romance</div></div>
+          </div>
+        </div>
+        <div class="show-meta"><div class="show-name">His Hidden Princess</div><div class="show-tags"><span class="show-rating">★ 8.9</span><span class="dot"></span><span>Royal</span></div></div>
+      </a>
+
+      <a href="series.html" class="show-card">
+        <div class="poster-frame">
+          <div class="poster bg-grad-3">
+            <span class="poster-art">N</span>
+            <span class="poster-eps">18 EP</span>
+            <div class="poster-info"><div class="poster-title">Night Shift Romance</div><div class="poster-sub">Comedy · Romance</div></div>
+          </div>
+        </div>
+        <div class="show-meta"><div class="show-name">Night Shift Romance</div><div class="show-tags"><span class="show-rating">★ 8.6</span><span class="dot"></span><span>Comedy</span></div></div>
+      </a>
+
+      <a href="series.html" class="show-card">
+        <div class="poster-frame">
+          <div class="poster bg-grad-9">
+            <span class="poster-art">E</span>
+            <span class="poster-badge badge-original">ORIGINAL</span>
+            <span class="poster-eps">22 EP</span>
+            <div class="poster-info"><div class="poster-title">Echoes of a Past Life</div><div class="poster-sub">Time Travel · Drama</div></div>
+          </div>
+        </div>
+        <div class="show-meta"><div class="show-name">Echoes of a Past Life</div><div class="show-tags"><span class="show-rating">★ 9.0</span><span class="dot"></span><span>Time Travel</span></div></div>
+      </a>
+
+      <a href="series.html" class="show-card">
+        <div class="poster-frame">
+          <div class="poster bg-grad-7">
+            <span class="poster-art">W</span>
+            <span class="poster-eps">52 EP</span>
+            <div class="poster-info"><div class="poster-title">When the Wolf Loves a Witch</div><div class="poster-sub">Werewolf · Fantasy</div></div>
+          </div>
+        </div>
+        <div class="show-meta"><div class="show-name">When the Wolf Loves a Witch</div><div class="show-tags"><span class="show-rating">★ 8.7</span><span class="dot"></span><span>Werewolf</span></div></div>
+      </a>
+
+      <a href="series.html" class="show-card">
+        <div class="poster-frame">
+          <div class="poster bg-grad-2">
+            <span class="poster-art">S</span>
+            <span class="poster-eps">36 EP</span>
+            <div class="poster-info"><div class="poster-title">She Walked Out a Queen</div><div class="poster-sub">Drama · Revenge</div></div>
+          </div>
+        </div>
+        <div class="show-meta"><div class="show-name">She Walked Out a Queen</div><div class="show-tags"><span class="show-rating">★ 9.0</span><span class="dot"></span><span>Drama</span></div></div>
+      </a>
+
+      <a href="series.html" class="show-card">
+        <div class="poster-frame">
+          <div class="poster bg-grad-12">
+            <span class="poster-art">B</span>
+            <span class="poster-eps">42 EP</span>
+            <div class="poster-info"><div class="poster-title">The Billionaire's Nanny</div><div class="poster-sub">Romance · Family</div></div>
+          </div>
+        </div>
+        <div class="show-meta"><div class="show-name">The Billionaire's Nanny</div><div class="show-tags"><span class="show-rating">★ 8.8</span><span class="dot"></span><span>Romance</span></div></div>
+      </a>
+
+      <a href="series.html" class="show-card">
+        <div class="poster-frame">
+          <div class="poster bg-grad-1">
+            <span class="poster-art">U</span>
+            <span class="poster-eps">28 EP</span>
+            <div class="poster-info"><div class="poster-title">Until the Music Stops</div><div class="poster-sub">Romance · Drama</div></div>
+          </div>
+        </div>
+        <div class="show-meta"><div class="show-name">Until the Music Stops</div><div class="show-tags"><span class="show-rating">★ 8.7</span><span class="dot"></span><span>Romance</span></div></div>
+      </a>
+
+      <a href="series.html" class="show-card">
+        <div class="poster-frame">
+          <div class="poster bg-grad-11">
+            <span class="poster-art">R</span>
+            <span class="poster-eps">38 EP</span>
+            <div class="poster-info"><div class="poster-title">Rewind My Heart</div><div class="poster-sub">Time Travel · Romance</div></div>
+          </div>
+        </div>
+        <div class="show-meta"><div class="show-name">Rewind My Heart</div><div class="show-tags"><span class="show-rating">★ 9.1</span><span class="dot"></span><span>Time Travel</span></div></div>
+      </a>
+
+      <a href="series.html" class="show-card">
+        <div class="poster-frame">
+          <div class="poster bg-grad-6">
+            <span class="poster-art">T</span>
+            <span class="poster-eps">46 EP</span>
+            <div class="poster-info"><div class="poster-title">The Don's Daughter</div><div class="poster-sub">Mafia · Romance</div></div>
+          </div>
+        </div>
+        <div class="show-meta"><div class="show-name">The Don's Daughter</div><div class="show-tags"><span class="show-rating">★ 8.9</span><span class="dot"></span><span>Mafia</span></div></div>
+      </a>
+
+      <a href="series.html" class="show-card">
+        <div class="poster-frame">
+          <div class="poster bg-grad-4">
+            <span class="poster-art">P</span>
+            <span class="poster-eps">34 EP</span>
+            <div class="poster-info"><div class="poster-title">Prince in Disguise</div><div class="poster-sub">Royal · Comedy</div></div>
+          </div>
+        </div>
+        <div class="show-meta"><div class="show-name">Prince in Disguise</div><div class="show-tags"><span class="show-rating">★ 8.5</span><span class="dot"></span><span>Royal</span></div></div>
+      </a>
+
+      <a href="series.html" class="show-card">
+        <div class="poster-frame">
+          <div class="poster bg-grad-8">
+            <span class="poster-art">L</span>
+            <span class="poster-eps">26 EP</span>
+            <div class="poster-info"><div class="poster-title">Lost & Found in Paris</div><div class="poster-sub">Romance · Drama</div></div>
+          </div>
+        </div>
+        <div class="show-meta"><div class="show-name">Lost & Found in Paris</div><div class="show-tags"><span class="show-rating">★ 8.8</span><span class="dot"></span><span>Romance</span></div></div>
+      </a>
+
+      <a href="series.html" class="show-card">
+        <div class="poster-frame">
+          <div class="poster bg-grad-10">
+            <span class="poster-art">T</span>
+            <span class="poster-eps">62 EP</span>
+            <div class="poster-info"><div class="poster-title">The Substitute Bride</div><div class="poster-sub">Drama · Romance</div></div>
+          </div>
+        </div>
+        <div class="show-meta"><div class="show-name">The Substitute Bride</div><div class="show-tags"><span class="show-rating">★ 9.2</span><span class="dot"></span><span>Drama</span></div></div>
+      </a>
+
+      <a href="series.html" class="show-card">
+        <div class="poster-frame">
+          <div class="poster bg-grad-5">
+            <span class="poster-art">W</span>
+            <span class="poster-eps">44 EP</span>
+            <div class="poster-info"><div class="poster-title">When My Ex Came Back Rich</div><div class="poster-sub">Revenge · Comedy</div></div>
+          </div>
+        </div>
+        <div class="show-meta"><div class="show-name">When My Ex Came Back Rich</div><div class="show-tags"><span class="show-rating">★ 9.0</span><span class="dot"></span><span>Revenge</span></div></div>
+      </a>
+
+    </div>
+
+    <div style="display:grid;place-items:center;margin:48px 0;">
+      <button class="btn btn-ghost btn-lg">Load more shows ↓</button>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col footer-brand">
+        <a href="index.html" class="logo">
+          <span class="logo-mark"><img src="logo-mark.svg" alt="Dremo"/></span>
+          <span class="logo-stack">
+            <span class="logo-text">Dremo</span>
+            <span class="logo-tagline">DRAMA · STORIES · CONNECTIONS</span>
+          </span>
+        </a>
+        <p>The short-drama community for women 25–45. 4.2M fans. Fair pricing. No coin traps.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Discover</h4>
+        <a href="browse.html">Browse</a>
+        <a href="browse.html">Trending</a>
+        <a href="browse.html">Originals</a>
+        <a href="browse.html">New Releases</a>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <a href="community.html">Episode Threads</a>
+        <a href="community.html">Fandom Rooms</a>
+        <a href="community.html">Creator AMAs</a>
+        <a href="community.html">Weekly Awards</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="#">Help Center</a>
+        <a href="#">Pricing</a>
+        <a href="#">Subscriptions</a>
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Dremo Studios. All rights reserved.</span>
+      <span>Drama. Stories. Connections.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.cat-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
