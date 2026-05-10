@@ -20,16 +20,16 @@
     <nav class="nav-links">
       <a href="index.html">Home</a>
       <a href="browse.html">Browse</a>
-      <a href="browse.html">Originals</a>
-      <a href="browse.html">Trending</a>
+      <a href="browse.html#originals">Originals</a>
+      <a href="browse.html#trending">Trending</a>
       <a href="community.html">Community</a>
     </nav>
     <div class="search-box">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
       <input type="text" placeholder="Search shows, genres, fandoms…" />
     </div>
-    <button class="btn btn-ghost">Sign In</button>
-    <button class="btn btn-primary">Join Free</button>
+    <a href="#signin" class="btn btn-ghost">Sign In</a>
+    <a href="#join" class="btn btn-primary">Join Free</a>
   </div>
 </header>
 
@@ -71,19 +71,19 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>
           Play Episode 1 — Free
         </a>
-        <button class="btn btn-ghost btn-lg">+ Add to My List</button>
-        <button class="btn btn-ghost btn-lg">↗ Share</button>
+        <button id="addListBtn" class="btn btn-ghost btn-lg">+ Add to My List</button>
+        <button id="shareBtn" class="btn btn-ghost btn-lg">↗ Share</button>
       </div>
     </div>
   </section>
 
   <section class="episodes-section">
     <div class="eps-tabs">
-      <button class="eps-tab active">Episodes (72)</button>
-      <button class="eps-tab">Cast & Crew</button>
-      <button class="eps-tab">Community (38.2K)</button>
-      <button class="eps-tab">Fandom Room</button>
-      <button class="eps-tab">More Like This</button>
+      <button class="eps-tab active" data-tab="episodes">Episodes (72)</button>
+      <button class="eps-tab" data-tab="cast">Cast & Crew</button>
+      <button class="eps-tab" data-tab="community">Community (38.2K)</button>
+      <button class="eps-tab" data-tab="fandom">Fandom Room</button>
+      <button class="eps-tab" data-tab="similar">More Like This</button>
     </div>
 
     <div class="eps-grid">
@@ -279,28 +279,28 @@
         <a href="index.html" class="logo">
           <img src="logo.png" alt="Dremo — Drama. Stories. Connections." class="logo-img"/>
         </a>
-        <p>The short-drama community for women 25–45. 4.2M fans. Fair pricing. No coin traps.</p>
+        <p>The short-drama community built around shared watching, live reactions, and fandom. 4.2M fans. Fair pricing. No coin traps.</p>
       </div>
       <div class="footer-col">
         <h4>Discover</h4>
         <a href="browse.html">Browse</a>
-        <a href="browse.html">Trending</a>
-        <a href="browse.html">Originals</a>
-        <a href="browse.html">New Releases</a>
+        <a href="browse.html#trending">Trending</a>
+        <a href="browse.html#originals">Originals</a>
+        <a href="browse.html#new">New Releases</a>
       </div>
       <div class="footer-col">
         <h4>Community</h4>
-        <a href="community.html">Episode Threads</a>
-        <a href="community.html">Fandom Rooms</a>
-        <a href="community.html">Creator AMAs</a>
-        <a href="community.html">Weekly Awards</a>
+        <a href="community.html#threads">Episode Threads</a>
+        <a href="community.html#fandoms">Fandom Rooms</a>
+        <a href="community.html#amas">Creator AMAs</a>
+        <a href="community.html#awards">Weekly Awards</a>
       </div>
       <div class="footer-col">
         <h4>Support</h4>
-        <a href="#">Help Center</a>
-        <a href="#">Pricing</a>
-        <a href="#">Terms</a>
-        <a href="#">Privacy</a>
+        <a href="#help">Help Center</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#terms">Terms</a>
+        <a href="#privacy">Privacy</a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -309,6 +309,45 @@
     </div>
   </div>
 </footer>
+
+<script>
+  // Tabs (visual switching)
+  document.querySelectorAll('.eps-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.eps-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+
+  // Add to My List → toggle to "Added"
+  const addBtn = document.getElementById('addListBtn');
+  if (addBtn) {
+    addBtn.addEventListener('click', () => {
+      const isAdded = addBtn.classList.toggle('btn-primary');
+      addBtn.classList.toggle('btn-ghost', !isAdded);
+      addBtn.textContent = isAdded ? '✓ Added to My List' : '+ Add to My List';
+    });
+  }
+
+  // Share → toast
+  const shareBtn = document.getElementById('shareBtn');
+  if (shareBtn) {
+    shareBtn.addEventListener('click', async () => {
+      const url = window.location.href;
+      const title = document.title;
+      if (navigator.share) {
+        try { await navigator.share({ title, url }); return; } catch(e){}
+      }
+      try { await navigator.clipboard.writeText(url); } catch(e){}
+      const t = document.createElement('div');
+      t.className = 'toast';
+      t.textContent = '🔗 Link copied to clipboard!';
+      document.body.appendChild(t);
+      requestAnimationFrame(() => t.classList.add('show'));
+      setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 2000);
+    });
+  }
+</script>
 
 </body>
 </html>

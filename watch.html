@@ -20,16 +20,16 @@
     <nav class="nav-links">
       <a href="index.html">Home</a>
       <a href="browse.html">Browse</a>
-      <a href="browse.html">Originals</a>
-      <a href="browse.html">Trending</a>
+      <a href="browse.html#originals">Originals</a>
+      <a href="browse.html#trending">Trending</a>
       <a href="community.html">Community</a>
     </nav>
     <div class="search-box">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
       <input type="text" placeholder="Search shows, genres, fandoms…" />
     </div>
-    <button class="btn btn-ghost">Sign In</button>
-    <button class="btn btn-primary">Join Free</button>
+    <a href="#signin" class="btn btn-ghost">Sign In</a>
+    <a href="#join" class="btn btn-primary">Join Free</a>
   </div>
 </header>
 
@@ -160,12 +160,12 @@
     </aside>
   </div>
 
-  <section class="community-section">
+  <section class="community-section" id="discussion">
     <div class="comments-card">
       <div class="comments-head">
         <div class="comments-title">
           💬 Episode 1 Discussion
-          <span class="comments-count">12,438 comments · live now</span>
+          <span class="comments-count"><span class="live-dot"></span>12,438 comments · live now</span>
         </div>
         <div class="comment-sort">
           <button class="sort-btn active">Top</button>
@@ -178,15 +178,15 @@
       <div class="comment-input-wrap">
         <div class="avatar avatar-lg av-3">YOU</div>
         <div style="flex:1;">
-          <textarea class="comment-input" placeholder="What did you think of this episode? Be kind. Spoilers go behind tags."></textarea>
+          <textarea id="commentInput" class="comment-input" placeholder="React to this episode…"></textarea>
           <div class="comment-input-bar">
             <div class="comment-input-tools">
               <span title="Emoji">😊</span>
               <span title="GIF">GIF</span>
               <span title="Spoiler tag">⚠️</span>
-              <span title="Tag a friend">@</span>
+              <span title="Mention someone">@</span>
             </div>
-            <button class="btn btn-primary" style="padding: 8px 18px; font-size:13px;">Post comment</button>
+            <button id="postCommentBtn" class="btn btn-primary" disabled style="padding: 8px 18px; font-size:13px; opacity:.5; cursor:not-allowed;">Post comment</button>
           </div>
         </div>
       </div>
@@ -227,7 +227,7 @@
                     <span class="comment-author">Kira P.</span>
                     <span class="comment-time">· 5 min ago</span>
                   </div>
-                  <p class="comment-text">girls i need a support group. i am unwell. 😭</p>
+                  <p class="comment-text">I need a support group. I am unwell. 😭</p>
                   <div class="comment-actions"><span>❤️ 318</span><span>💬 Reply</span></div>
                 </div>
               </div>
@@ -261,7 +261,7 @@
               <span class="comment-flair flair-superfan">SUPERFAN</span>
               <span class="comment-time">· 2h ago</span>
             </div>
-            <p class="comment-text">friendly reminder that we have a NO-SPOILERS rule for new viewers in this thread 🤍 take spoilery takes to the Fandom Room. let the new girlies experience this RAW.</p>
+            <p class="comment-text">Friendly reminder that we have a NO-SPOILERS rule for new viewers in this thread 🤍 take spoilery takes to the Fandom Room. Let new viewers experience this raw.</p>
             <div class="comment-actions">
               <span>❤️ 1,234</span>
               <span>💬 Reply (54)</span>
@@ -375,28 +375,28 @@
         <a href="index.html" class="logo">
           <img src="logo.png" alt="Dremo — Drama. Stories. Connections." class="logo-img"/>
         </a>
-        <p>The short-drama community for women 25–45. 4.2M fans. Fair pricing. No coin traps.</p>
+        <p>The short-drama community built around shared watching, live reactions, and fandom. 4.2M fans. Fair pricing. No coin traps.</p>
       </div>
       <div class="footer-col">
         <h4>Discover</h4>
         <a href="browse.html">Browse</a>
-        <a href="browse.html">Trending</a>
-        <a href="browse.html">Originals</a>
-        <a href="browse.html">New Releases</a>
+        <a href="browse.html#trending">Trending</a>
+        <a href="browse.html#originals">Originals</a>
+        <a href="browse.html#new">New Releases</a>
       </div>
       <div class="footer-col">
         <h4>Community</h4>
-        <a href="community.html">Episode Threads</a>
-        <a href="community.html">Fandom Rooms</a>
-        <a href="community.html">Creator AMAs</a>
-        <a href="community.html">Weekly Awards</a>
+        <a href="community.html#threads">Episode Threads</a>
+        <a href="community.html#fandoms">Fandom Rooms</a>
+        <a href="community.html#amas">Creator AMAs</a>
+        <a href="community.html#awards">Weekly Awards</a>
       </div>
       <div class="footer-col">
         <h4>Support</h4>
-        <a href="#">Help Center</a>
-        <a href="#">Pricing</a>
-        <a href="#">Terms</a>
-        <a href="#">Privacy</a>
+        <a href="#help">Help Center</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#terms">Terms</a>
+        <a href="#privacy">Privacy</a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -407,16 +407,40 @@
 </footer>
 
 <script>
+  // Episode list active state
   document.querySelectorAll('.ep-row').forEach(row => {
     row.addEventListener('click', () => {
       document.querySelectorAll('.ep-row').forEach(r => r.classList.remove('current'));
       row.classList.add('current');
     });
   });
+  // Comment sort tabs
   document.querySelectorAll('.sort-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
+    });
+  });
+  // Comment input — enable Post button only when text is present
+  const ci = document.getElementById('commentInput');
+  const cb = document.getElementById('postCommentBtn');
+  if (ci && cb) {
+    ci.addEventListener('input', () => {
+      const ok = ci.value.trim().length > 0;
+      cb.disabled = !ok;
+      cb.style.opacity = ok ? '1' : '.5';
+      cb.style.cursor = ok ? 'pointer' : 'not-allowed';
+    });
+  }
+  // Comment action toggles (heart, save)
+  document.querySelectorAll('.comment-actions span').forEach(a => {
+    a.addEventListener('click', e => {
+      const txt = a.textContent || '';
+      if (txt.includes('❤️')) a.classList.toggle('liked');
+      if (txt.includes('🔖')) {
+        a.classList.toggle('saved');
+        a.innerHTML = a.classList.contains('saved') ? '🔖 Saved' : '🔖 Save';
+      }
     });
   });
 </script>

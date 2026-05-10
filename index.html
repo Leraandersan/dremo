@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Dremo — Drama. Stories. Connections.</title>
-<meta name="description" content="Dremo is the short-drama community for women who love bingeable stories. Watch addictive vertical episodes, react with thousands of others, and never pay $80 a month again." />
+<meta name="description" content="Watch short dramas like everyone is in the room with you. Binge addictive mini-episodes, react in live episode threads, join fandom rooms, and find people watching the same story at the same moment." />
 <link rel="icon" type="image/png" href="logo.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,22 +22,22 @@
     <nav class="nav-links">
       <a href="index.html" class="active">Home</a>
       <a href="browse.html">Browse</a>
-      <a href="browse.html">Originals</a>
-      <a href="browse.html">Trending</a>
+      <a href="browse.html#originals">Originals</a>
+      <a href="browse.html#trending">Trending</a>
       <a href="community.html">Community</a>
     </nav>
     <div class="search-box">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
       <input type="text" placeholder="Search shows, genres, fandoms…" />
     </div>
-    <button class="btn btn-ghost">Sign In</button>
-    <button class="btn btn-primary">Join Free</button>
+    <a href="#signin" class="btn btn-ghost">Sign In</a>
+    <a href="#join" class="btn btn-primary">Join Free</a>
   </div>
 </header>
 
 <main class="container">
 
-  <!-- ========== HERO ========== -->
+  <!-- ========== 1. HERO ========== -->
   <section class="hero">
     <div class="hero-bg"></div>
     <div class="hero-content">
@@ -50,18 +50,19 @@
         <span>·</span>
         <span>💬 38.2K comments</span>
         <span>·</span>
-        <span class="chip">Romance</span>
-        <span class="chip">CEO</span>
+        <span class="chip live-pill"><span class="live-dot"></span> 38,000 fans watching now</span>
       </div>
       <p class="hero-desc">
-        She works the late shift at the rooftop bar where billionaire Adrian Cole drinks alone every Friday — and pretends not to notice her. One reckless night, one misread glance, one impossible offer. By 3 a.m., they have a deal that neither of them can take back. <strong style="color:var(--text);">38,000 women are watching this with you right now.</strong>
+        She works the late shift at the rooftop bar where billionaire Adrian Cole drinks alone every Friday — and pretends not to notice her. One reckless night, one misread glance, one impossible offer. By 3 a.m., they have a deal that neither of them can take back.
       </p>
       <div class="hero-cta">
         <a href="watch.html" class="btn btn-primary btn-lg">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>
-          Play Episode 1 — Free
+          Watch Episode 1 — Free
         </a>
-        <a href="series.html" class="btn btn-ghost btn-lg">+ Add to My List</a>
+        <a href="watch.html#discussion" class="btn btn-ghost btn-lg">
+          💬 Join Live Thread
+        </a>
       </div>
     </div>
     <div class="hero-poster">
@@ -73,55 +74,76 @@
     </div>
   </section>
 
-  <!-- ========== THREE PILLARS ========== -->
+  <!-- ========== 2. LIVE COMMUNITY STRIP ========== -->
+  <section style="margin-top: 32px;">
+    <div class="live-strip">
+      <div class="live-strip-label"><span class="live-dot"></span> LIVE NOW</div>
+      <div class="live-strip-items">
+        <a href="watch.html#discussion" class="live-item">
+          <div class="avatar av-1" style="width:32px;height:32px;font-size:11px;">JS</div>
+          <div>
+            <div class="live-item-title">Jess just commented on EP 9</div>
+            <div class="live-item-sub">My Boss After Midnight · 12s ago</div>
+          </div>
+        </a>
+        <a href="watch.html#discussion" class="live-item">
+          <div class="live-item-icon">💬</div>
+          <div>
+            <div class="live-item-title">612 replies in the cake scene thread</div>
+            <div class="live-item-sub">Trending discussion · 2 min ago</div>
+          </div>
+        </a>
+        <a href="community.html" class="live-item">
+          <div class="live-item-icon">🎙️</div>
+          <div>
+            <div class="live-item-title">Creator AMA starts in 10 minutes</div>
+            <div class="live-item-sub">The Last Inheritance · go live</div>
+          </div>
+        </a>
+        <a href="community.html" class="live-item">
+          <div class="live-item-icon">🗳️</div>
+          <div>
+            <div class="live-item-title">Voting closes Friday</div>
+            <div class="live-item-sub">Weekly Awards · 4 categories open</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 3. WHY DREMO FEELS DIFFERENT ========== -->
   <section>
     <div class="section-head">
       <div>
-        <h2 class="section-title">Why <span class="accent">Dremo</span> isn't like the others</h2>
-        <div class="section-sub">Built by women, for women — finally a short-drama platform that respects you</div>
+        <h2 class="section-title">Why Dremo <span class="accent">feels different</span></h2>
+        <div class="section-sub">Short dramas are better when every twist has reactions, theories, and people watching with you.</div>
       </div>
     </div>
     <div class="pillars-grid">
       <div class="pillar">
-        <div class="pillar-num">01 — FAIR PRICING</div>
-        <h3>$9.99/mo. Not $80.</h3>
-        <p><span class="pillar-strike">$80/mo VIP</span> Watch every episode of every show for less than the price of one coffee a week. No coin traps. No rage-quit paywalls mid-episode.</p>
+        <div class="pillar-num">01 — WATCH TOGETHER</div>
+        <h3>Live reactions on every episode.</h3>
+        <p>Every episode has live reactions, spoiler-safe threads, and people reacting in real time. You are not just watching another cliffhanger — you are part of the conversation around it.</p>
       </div>
       <div class="pillar">
-        <div class="pillar-num">02 — COMMUNITY FIRST</div>
-        <h3>You're never watching alone.</h3>
-        <p>React in real time, swap theories with thousands of women in episode threads, and join fandoms for your favorite shows. <strong style="color:var(--text);">93% positive reviews</strong> — not 48% negative.</p>
+        <div class="pillar-num">02 — FAIR UNLIMITED ACCESS</div>
+        <h3>$9.99/month. Not $80.</h3>
+        <p><span class="pillar-strike">$80/mo VIP</span> $9.99/month for unlimited episodes. No confusing coin traps. No surprise paywalls halfway through a binge.</p>
       </div>
       <div class="pillar">
-        <div class="pillar-num">03 — STORIES THAT GET YOU</div>
-        <h3>Made for women 25–45.</h3>
-        <p>No teenage chaos, no toxic tropes pretending to be romance. Smart heroines, slow-burn chemistry, second chances, and writers who understand what it's like to be us.</p>
+        <div class="pillar-num">03 — FANDOM ROOMS FOR EVERY STORY</div>
+        <h3>Find people who watched what you watched.</h3>
+        <p>Join dedicated spaces for your favorite shows, trade theories, vote on weekly awards, discover fan edits, and get recommendations from people who already watched what you loved.</p>
       </div>
     </div>
   </section>
 
-  <!-- ========== CATEGORIES BAR ========== -->
-  <section style="margin: 32px 0;">
-    <div class="category-bar">
-      <button class="cat-chip active">For You</button>
-      <button class="cat-chip">Romance</button>
-      <button class="cat-chip">Werewolf</button>
-      <button class="cat-chip">Vampire</button>
-      <button class="cat-chip">Thriller</button>
-      <button class="cat-chip">Drama</button>
-      <button class="cat-chip">Fantasy</button>
-      <button class="cat-chip">Comedy</button>
-      <button class="cat-chip">Mystery</button>
-      <button class="cat-chip">Family</button>
-    </div>
-  </section>
-
-  <!-- ========== TRENDING NOW ========== -->
+  <!-- ========== 4. TRENDING RIGHT NOW ========== -->
   <section>
     <div class="section-head">
       <div>
-        <h2 class="section-title">🔥 Trending <span class="accent">Right Now</span></h2>
-        <div class="section-sub">What our 4.2M-strong community is bingeing this week</div>
+        <h2 class="section-title">🔥 Trending <span class="accent">right now</span></h2>
+        <div class="section-sub">What the community is bingeing — and talking about — this week</div>
       </div>
       <a href="browse.html" class="section-link">View all →</a>
     </div>
@@ -132,7 +154,8 @@
         <div class="trending-poster"><div class="poster" style="background-image:url('posters/my-boss-after-midnight.png')"></div></div>
         <div class="trending-info">
           <div class="trending-name">My Boss After Midnight</div>
-          <div class="trending-tags">Romance · CEO · 38K comments</div>
+          <div class="trending-tags">Romance · CEO</div>
+          <div class="trending-live"><span class="live-dot"></span> 38.2K talking now</div>
         </div>
       </a>
       <a href="series.html" class="trending-card">
@@ -140,7 +163,8 @@
         <div class="trending-poster"><div class="poster" style="background-image:url('posters/bound-to-the-alpha.png')"></div></div>
         <div class="trending-info">
           <div class="trending-name">Bound to the Alpha</div>
-          <div class="trending-tags">Werewolf · Romance · 42K comments</div>
+          <div class="trending-tags">Werewolf · Romance</div>
+          <div class="trending-live"><span class="live-dot"></span> 27.4K talking now</div>
         </div>
       </a>
       <a href="series.html" class="trending-card">
@@ -148,7 +172,8 @@
         <div class="trending-poster"><div class="poster" style="background-image:url('posters/the-last-inheritance.png')"></div></div>
         <div class="trending-info">
           <div class="trending-name">The Last Inheritance</div>
-          <div class="trending-tags">Drama · Family · 51K comments</div>
+          <div class="trending-tags">Drama · Family</div>
+          <div class="trending-live"><span class="live-dot"></span> 51.2K talking now</div>
         </div>
       </a>
       <a href="series.html" class="trending-card">
@@ -156,7 +181,8 @@
         <div class="trending-poster"><div class="poster" style="background-image:url('posters/marry-my-enemy.png')"></div></div>
         <div class="trending-info">
           <div class="trending-name">Marry My Enemy</div>
-          <div class="trending-tags">Romance · Marriage · 27K comments</div>
+          <div class="trending-tags">Romance · Marriage</div>
+          <div class="trending-live"><span class="live-dot"></span> 18.9K talking now</div>
         </div>
       </a>
       <a href="series.html" class="trending-card">
@@ -164,7 +190,8 @@
         <div class="trending-poster"><div class="poster" style="background-image:url('posters/midnight-heiress.png')"></div></div>
         <div class="trending-info">
           <div class="trending-name">The Midnight Heiress</div>
-          <div class="trending-tags">Drama · Mystery · 19K comments</div>
+          <div class="trending-tags">Drama · Mystery</div>
+          <div class="trending-live"><span class="live-dot"></span> 14.1K talking now</div>
         </div>
       </a>
       <a href="series.html" class="trending-card">
@@ -172,7 +199,8 @@
         <div class="trending-poster"><div class="poster" style="background-image:url('posters/pregnant-by-the-vampire-king.png')"></div></div>
         <div class="trending-info">
           <div class="trending-name">Pregnant by the Vampire King</div>
-          <div class="trending-tags">Vampire · Fantasy · 23K comments</div>
+          <div class="trending-tags">Vampire · Fantasy</div>
+          <div class="trending-live"><span class="live-dot"></span> 22.6K talking now</div>
         </div>
       </a>
       <a href="series.html" class="trending-card">
@@ -180,7 +208,8 @@
         <div class="trending-poster"><div class="poster" style="background-image:url('posters/one-night-two-brothers.png')"></div></div>
         <div class="trending-info">
           <div class="trending-name">One Night, Two Brothers</div>
-          <div class="trending-tags">Romance · Drama · 31K comments</div>
+          <div class="trending-tags">Romance · Drama</div>
+          <div class="trending-live"><span class="live-dot"></span> 31.4K talking now</div>
         </div>
       </a>
       <a href="series.html" class="trending-card">
@@ -188,17 +217,18 @@
         <div class="trending-poster"><div class="poster" style="background-image:url('posters/the-moon-garden.png')"></div></div>
         <div class="trending-info">
           <div class="trending-name">The Moon Garden</div>
-          <div class="trending-tags">Fantasy · Romance · 16K comments</div>
+          <div class="trending-tags">Fantasy · Romance</div>
+          <div class="trending-live"><span class="live-dot"></span> 16.3K talking now</div>
         </div>
       </a>
     </div>
   </section>
 
-  <!-- ========== SOCIAL BUZZ ========== -->
+  <!-- ========== 5. WHAT THE COMMUNITY IS SAYING ========== -->
   <section>
     <div class="section-head">
       <div>
-        <h2 class="section-title">📣 What our <span class="accent">community</span> is saying</h2>
+        <h2 class="section-title">📣 What the <span class="accent">community</span> is saying</h2>
         <div class="section-sub">Real reactions from real Dremo fans this week</div>
       </div>
     </div>
@@ -222,7 +252,7 @@
             <div class="buzz-handle">@mariareads · 5h</div>
           </div>
         </div>
-        <p class="buzz-text">"Came for the romance, stayed for the comment threads. Y'all are funnier than the show 😭 Dremo really gets it — my old app wanted $80/mo to watch ONE series."</p>
+        <p class="buzz-text">"Came for the romance, stayed for the comment threads. Y'all are funnier than the show. Dremo really gets it 😭 — my old app wanted $80/mo to watch ONE series."</p>
         <div class="buzz-meta"><span>❤️ 1.6k</span><span>💬 211 replies</span></div>
       </div>
       <div class="buzz-card">
@@ -244,107 +274,13 @@
             <div class="buzz-handle">@amber_lou · 1d</div>
           </div>
         </div>
-        <p class="buzz-text">"Switched from a competitor and never looking back. Same vibes, half the price, and the comment section actually feels like a girls' group chat. 🩷"</p>
+        <p class="buzz-text">"Switched from a competitor and never looking back. Same vibes, half the price, and the comment section feels like your favorite group chat. 🩷"</p>
         <div class="buzz-meta"><span>❤️ 5.8k</span><span>💬 891 replies</span></div>
       </div>
     </div>
   </section>
 
-  <!-- ========== NEW RELEASES ========== -->
-  <section>
-    <div class="section-head">
-      <div>
-        <h2 class="section-title">✨ <span class="accent">Just Dropped</span></h2>
-        <div class="section-sub">Fresh episodes added in the last 7 days</div>
-      </div>
-      <a href="browse.html" class="section-link">View all →</a>
-    </div>
-
-    <div class="poster-grid">
-      <a href="series.html" class="show-card">
-        <div class="poster-frame">
-          <div class="poster" style="background-image:url('posters/pregnant-by-the-alpha.png')">
-            <span class="poster-badge badge-new">NEW</span>
-            <span class="poster-eps">EP 1-30</span>
-          </div>
-        </div>
-        <div class="show-meta"><div class="show-name">Pregnant by the Alpha</div><div class="show-tags"><span class="show-rating">★ 9.1</span><span class="dot"></span><span>Werewolf</span></div></div>
-      </a>
-
-      <a href="series.html" class="show-card">
-        <div class="poster-frame">
-          <div class="poster" style="background-image:url('posters/the-second-wife.png')">
-            <span class="poster-badge badge-new">NEW</span>
-            <span class="poster-eps">EP 1-24</span>
-          </div>
-        </div>
-        <div class="show-meta"><div class="show-name">The Second Wife</div><div class="show-tags"><span class="show-rating">★ 8.8</span><span class="dot"></span><span>Drama</span></div></div>
-      </a>
-
-      <a href="series.html" class="show-card">
-        <div class="poster-frame">
-          <div class="poster" style="background-image:url('posters/neon-alibi.png')">
-            <span class="poster-badge badge-new">NEW</span>
-            <span class="poster-eps">EP 1-40</span>
-          </div>
-        </div>
-        <div class="show-meta"><div class="show-name">Neon Alibi</div><div class="show-tags"><span class="show-rating">★ 9.3</span><span class="dot"></span><span>Thriller</span></div></div>
-      </a>
-
-      <a href="series.html" class="show-card">
-        <div class="poster-frame">
-          <div class="poster" style="background-image:url('posters/room-317.png')">
-            <span class="poster-badge badge-new">NEW</span>
-            <span class="poster-eps">EP 1-32</span>
-          </div>
-        </div>
-        <div class="show-meta"><div class="show-name">Room 317</div><div class="show-tags"><span class="show-rating">★ 8.9</span><span class="dot"></span><span>Thriller</span></div></div>
-      </a>
-
-      <a href="series.html" class="show-card">
-        <div class="poster-frame">
-          <div class="poster" style="background-image:url('posters/flatmates-on-fire.png')">
-            <span class="poster-badge badge-new">NEW</span>
-            <span class="poster-eps">EP 1-18</span>
-          </div>
-        </div>
-        <div class="show-meta"><div class="show-name">Flatmates on Fire</div><div class="show-tags"><span class="show-rating">★ 8.6</span><span class="dot"></span><span>Comedy</span></div></div>
-      </a>
-
-      <a href="series.html" class="show-card">
-        <div class="poster-frame">
-          <div class="poster" style="background-image:url('posters/girl-in-the-reflection.png')">
-            <span class="poster-badge badge-new">NEW</span>
-            <span class="poster-eps">EP 1-22</span>
-          </div>
-        </div>
-        <div class="show-meta"><div class="show-name">The Girl in the Reflection</div><div class="show-tags"><span class="show-rating">★ 9.0</span><span class="dot"></span><span>Thriller</span></div></div>
-      </a>
-    </div>
-  </section>
-
-  <!-- ========== BROWSE BY MOOD ========== -->
-  <section>
-    <div class="section-head">
-      <div>
-        <h2 class="section-title">Browse by <span class="accent">Mood</span></h2>
-        <div class="section-sub">Pick your poison — we have a story for it</div>
-      </div>
-    </div>
-
-    <div class="cat-grid">
-      <a href="browse.html" class="cat-tile bg-grad-1"><span class="cat-tile-icon">💋</span><div><div class="cat-tile-title">Romance</div><div class="cat-tile-count">2,840 shows</div></div></a>
-      <a href="browse.html" class="cat-tile bg-grad-7"><span class="cat-tile-icon">🐺</span><div><div class="cat-tile-title">Werewolf</div><div class="cat-tile-count">1,120 shows</div></div></a>
-      <a href="browse.html" class="cat-tile bg-grad-2"><span class="cat-tile-icon">🩸</span><div><div class="cat-tile-title">Vampire</div><div class="cat-tile-count">680 shows</div></div></a>
-      <a href="browse.html" class="cat-tile bg-grad-3"><span class="cat-tile-icon">🕵️</span><div><div class="cat-tile-title">Thriller</div><div class="cat-tile-count">1,460 shows</div></div></a>
-      <a href="browse.html" class="cat-tile bg-grad-8"><span class="cat-tile-icon">💎</span><div><div class="cat-tile-title">Billionaire</div><div class="cat-tile-count">1,890 shows</div></div></a>
-      <a href="browse.html" class="cat-tile bg-grad-6"><span class="cat-tile-icon">🪄</span><div><div class="cat-tile-title">Fantasy</div><div class="cat-tile-count">760 shows</div></div></a>
-      <a href="browse.html" class="cat-tile bg-grad-5"><span class="cat-tile-icon">🎭</span><div><div class="cat-tile-title">Drama</div><div class="cat-tile-count">2,140 shows</div></div></a>
-      <a href="browse.html" class="cat-tile bg-grad-4"><span class="cat-tile-icon">😂</span><div><div class="cat-tile-title">Comedy</div><div class="cat-tile-count">1,210 shows</div></div></a>
-    </div>
-  </section>
-
-  <!-- ========== JOIN THE CONVERSATION ========== -->
+  <!-- ========== 6. JOIN THE CONVERSATION ========== -->
   <section class="community-section">
     <div class="section-head">
       <div>
@@ -357,13 +293,13 @@
       <a href="community.html" class="community-card">
         <div class="community-card-icon">💬</div>
         <h3>Episode Threads</h3>
-        <p>Live reactions on every single episode. React, theorize, scream into the void with thousands of women who get it.</p>
+        <p>Live reactions on every episode. React, theorize, post memes, and follow the exact moment everyone loses their mind.</p>
         <div class="community-meta">🟢 38,247 active right now</div>
       </a>
       <a href="community.html" class="community-card">
         <div class="community-card-icon">👯</div>
         <h3>Fandom Rooms</h3>
-        <p>Dedicated spaces for every show. Find your people, share fanart, get spoiler-free recs from women who watch what you watch.</p>
+        <p>Dedicated spaces for every show. Find your people, share fan edits, get spoiler-free recommendations, and keep the story alive between episodes.</p>
         <div class="community-meta">🩷 1,420 active fandoms</div>
       </a>
       <a href="community.html" class="community-card">
@@ -381,8 +317,8 @@
     </div>
   </section>
 
-  <!-- ========== ORIGINALS ========== -->
-  <section>
+  <!-- ========== 7. DREMO ORIGINALS ========== -->
+  <section id="originals">
     <div class="section-head">
       <div>
         <h2 class="section-title">⭐ Dremo <span class="accent">Originals</span></h2>
@@ -427,19 +363,19 @@
     </div>
   </section>
 
-  <!-- ========== APP CTA ========== -->
+  <!-- ========== 8. APP CTA / FINAL ========== -->
   <section class="app-cta">
     <div class="app-cta-content">
-      <h2>Take Dremo <em style="font-style:normal;background:var(--grad-hero);-webkit-background-clip:text;background-clip:text;color:transparent;">everywhere</em>.</h2>
-      <p>Download the app for offline viewing, real-time community notifications, and your daily fix of bingeable drama. Free to join. $9.99/mo for unlimited everything. No coin traps. Ever.</p>
+      <h2>Start watching. Join the thread. <em style="font-style:normal;background:var(--grad-hero);-webkit-background-clip:text;background-clip:text;color:transparent;">Find your fandom.</em></h2>
+      <p>Take Dremo everywhere. Watch offline, get notified the moment a new episode drops, and never miss a live thread your fandom is in. Free to join. $9.99/mo for unlimited everything. No coin traps. Ever.</p>
       <div class="store-buttons">
-        <a href="#" class="store-btn">
+        <a href="#coming-soon" class="store-btn" data-coming-soon>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-          <span><small>Download on the</small> App Store</span>
+          <span><small>Coming soon to</small> App Store</span>
         </a>
-        <a href="#" class="store-btn">
+        <a href="#coming-soon" class="store-btn" data-coming-soon>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5V3.5c0-.59.34-1.11.84-1.35L13.69 12 3.84 21.85c-.5-.25-.84-.76-.84-1.35zm10.81-7.79l2.81 2.81-12.39 7.06 9.58-9.87zm5.91-4.04c.36.27.6.71.6 1.18 0 .47-.23.91-.59 1.18l-2.7 1.55-3.18-3.18 3.19-3.19 2.68 1.46zM5.65 2.13l12.39 7.06-2.81 2.81-9.58-9.87z"/></svg>
-          <span><small>Get it on</small> Google Play</span>
+          <span><small>Coming soon to</small> Google Play</span>
         </a>
       </div>
     </div>
@@ -462,29 +398,30 @@
         <a href="index.html" class="logo">
           <img src="logo.png" alt="Dremo — Drama. Stories. Connections." class="logo-img"/>
         </a>
-        <p>The short-drama community for women 25–45. 4.2M fans. 18,000+ shows. Fair pricing. No drama (well, except on screen).</p>
+        <p>The short-drama community built around shared watching, live reactions, and fandom. 4.2M fans. 18,000+ shows. Fair pricing. No coin traps.</p>
       </div>
       <div class="footer-col">
         <h4>Discover</h4>
         <a href="browse.html">Browse</a>
-        <a href="browse.html">Trending</a>
-        <a href="browse.html">Originals</a>
-        <a href="browse.html">New Releases</a>
+        <a href="browse.html#trending">Trending</a>
+        <a href="browse.html#originals">Originals</a>
+        <a href="browse.html#new">New Releases</a>
+        <a href="browse.html#charts">Top Charts</a>
       </div>
       <div class="footer-col">
         <h4>Community</h4>
         <a href="community.html">Episode Threads</a>
-        <a href="community.html">Fandom Rooms</a>
-        <a href="community.html">Creator AMAs</a>
-        <a href="community.html">Weekly Awards</a>
+        <a href="community.html#fandoms">Fandom Rooms</a>
+        <a href="community.html#amas">Creator AMAs</a>
+        <a href="community.html#awards">Weekly Awards</a>
       </div>
       <div class="footer-col">
         <h4>Support</h4>
-        <a href="#">Help Center</a>
-        <a href="#">Pricing</a>
-        <a href="#">Subscriptions</a>
-        <a href="#">Terms</a>
-        <a href="#">Privacy</a>
+        <a href="#help">Help Center</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#subscriptions">Subscriptions</a>
+        <a href="#terms">Terms</a>
+        <a href="#privacy">Privacy</a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -495,10 +432,16 @@
 </footer>
 
 <script>
-  document.querySelectorAll('.cat-chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-      document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
-      chip.classList.add('active');
+  // App-store buttons → "Coming soon" toast
+  document.querySelectorAll('[data-coming-soon]').forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      const t = document.createElement('div');
+      t.className = 'toast';
+      t.textContent = '📱 The Dremo app is coming soon — drop your email to get notified!';
+      document.body.appendChild(t);
+      requestAnimationFrame(() => t.classList.add('show'));
+      setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 2400);
     });
   });
 </script>
