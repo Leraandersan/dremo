@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Pricing — Unlimited drama, your way · Dremo</title>
-<meta name="description" content="Plans from $11/mo. First 3 episodes of every series are always free. Watch Together Bundle from $15/mo per friend. Cancel anytime." />
+<meta name="description" content="Plans from $11/mo. First 3 episodes of every series are always free. Watch Together Bundle from $36/4wk per friend." />
 <link rel="icon" type="image/png" href="logo.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,19 +18,13 @@
     <a href="index.html" class="logo">
       <img src="logo.png" alt="Dremo" class="logo-img"/>
     </a>
-    <nav class="nav-links">
+    <nav class="nav-links" id="navLinks">
       <a href="index.html">Home</a>
-      <a href="browse.html">Browse</a>
-      <a href="browse.html#originals">Originals</a>
       <a href="community.html">Community</a>
       <a href="pricing.html" class="active">Pricing</a>
     </nav>
-    <div class="search-box">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-      <input type="text" placeholder="Search shows, genres, fandoms…" />
-    </div>
-    <a href="#signin" class="btn btn-ghost">Sign In</a>
-    <a href="#join" class="btn btn-glow">Join Early Access</a>
+    <button class="nav-burger" id="navBurger" aria-label="Menu">☰</button>
+    <a href="#join" class="btn btn-glow open-modal" style="margin-left:auto;">Join Early Access</a>
   </div>
 </header>
 
@@ -58,7 +52,6 @@
         <li class="no">Alternative Endings voting</li>
         <li class="no">Early access episodes</li>
       </ul>
-      <a href="#start-1w" class="price-cta outlined">Get 1-Week Access</a>
     </div>
 
     <!-- 4 Week Pass (Popular) -->
@@ -76,7 +69,6 @@
         <li>Alternative Endings voting</li>
         <li>Priority support</li>
       </ul>
-      <a href="#start-4w" class="price-cta primary">Start 4-Week Plan</a>
     </div>
 
     <!-- Annual Pass (Best Value) -->
@@ -95,27 +87,61 @@
         <li>Early access + exclusive content</li>
         <li>Creator badge on profile</li>
       </ul>
-      <a href="#start-annual" class="price-cta gold">Go Annual</a>
     </div>
 
   </section>
 
-  <!-- Watch Together Bundle -->
-  <section class="bundle">
-    <div>
-      <h3>👯 Watch Together Bundle</h3>
-      <p>Buy a Watch Party Pass with 2–4 friends and everyone gets a discount. The more friends join, the cheaper it gets for everyone. You each need to purchase to activate the group discount.</p>
-      <div class="bundle-tiers">
-        <div class="bundle-tier"><span class="friends">2 friends:</span> $22 each / 4wk <span style="color:var(--text-3);">(vs $66)</span></div>
-        <div class="bundle-tier"><span class="friends">3 friends:</span> $18 each / 4wk</div>
-        <div class="bundle-tier"><span class="friends">4 friends:</span> $15 each / 4wk</div>
+  <!-- Watch Together Bundle (new tiered layout) -->
+  <section class="bundle-v2" style="margin-top: 28px;">
+    <div class="bundle-v2-head">
+      <div>
+        <h2>👯 Watch Together <em>Bundle</em></h2>
+        <p>Share the emotions. Split the price. Buy a Watch Pass with 2–4 friends and everyone gets a discount. You each need to purchase to activate the group rate.</p>
       </div>
     </div>
-    <div class="bundle-price-block">
-      <div class="bundle-price">from <big>$15</big></div>
-      <div class="bundle-price-sub">per person / 4 weeks</div>
-      <a href="#invite" class="bundle-cta">Invite Friends →</a>
+
+    <div class="bundle-tier-grid">
+      <div class="bundle-tier-card">
+        <div class="bundle-tier-icon">🧍</div>
+        <div class="bundle-tier-name">Solo</div>
+        <div class="bundle-tier-price"><small>$</small>66</div>
+        <div class="bundle-tier-period">/ 4 weeks</div>
+        <div class="bundle-tier-save solo">Full price</div>
+      </div>
+
+      <div class="bundle-tier-card">
+        <div class="bundle-tier-icon">👯</div>
+        <div class="bundle-tier-name">2 Friends</div>
+        <div class="bundle-tier-price"><small>$</small>49</div>
+        <div class="bundle-tier-period">each / 4 weeks</div>
+        <div class="bundle-tier-save">Save 26%</div>
+      </div>
+
+      <div class="bundle-tier-card tier-popular">
+        <span class="bundle-tier-flag">⭐ Most Popular</span>
+        <div class="bundle-tier-icon">👨‍👩‍👧</div>
+        <div class="bundle-tier-name">3 Friends</div>
+        <div class="bundle-tier-price"><small>$</small>42</div>
+        <div class="bundle-tier-period">each / 4 weeks</div>
+        <div class="bundle-tier-save">Save 36%</div>
+      </div>
+
+      <div class="bundle-tier-card">
+        <div class="bundle-tier-icon">👨‍👩‍👧‍👦</div>
+        <div class="bundle-tier-name">4 Friends</div>
+        <div class="bundle-tier-price"><small>$</small>36</div>
+        <div class="bundle-tier-period">each / 4 weeks</div>
+        <div class="bundle-tier-save">Save 45%</div>
+      </div>
     </div>
+  </section>
+
+  <!-- Single Request Access CTA -->
+  <section style="margin: 40px 0 48px; text-align: center;">
+    <a href="#request-access" class="btn btn-glow btn-lg open-modal" style="padding: 18px 42px; font-size: 17px;">
+      Request Access →
+    </a>
+    <p style="color: var(--text-3); font-size: 13px; margin-top: 14px;">No card required. Get notified when invites open. 🔒 No spam.</p>
   </section>
 
   <!-- Trust strip -->
@@ -180,7 +206,7 @@
       <p>Pick any series. First 3 episodes are on us. No card. No coin trap. Just see if you can stop after one.</p>
       <div class="store-buttons">
         <a href="watch.html" class="btn btn-glow btn-lg">▶ Watch Free Episode</a>
-        <a href="browse.html" class="btn btn-ghost btn-lg">Browse all series</a>
+        <a href="#request-access" class="btn btn-ghost btn-lg open-modal">Request Access</a>
       </div>
     </div>
     <div class="app-cta-phones">
@@ -199,11 +225,15 @@
         <a href="index.html" class="logo"><img src="logo.png" alt="Dremo" class="logo-img"/></a>
         <p>The short-drama community built around shared watching, live reactions, and fandom. 4.2M fans. 18,000+ shows.</p>
         <div class="social-row">
-          <a href="#tiktok" title="TikTok">🎵</a>
-          <a href="#instagram" title="Instagram">📷</a>
-          <a href="#discord" title="Discord">💬</a>
-          <a href="#youtube" title="YouTube">▶️</a>
-          <a href="#x" title="X / Twitter">𝕏</a>
+          <a href="https://vm.tiktok.com/ZNRspoKQs/" target="_blank" rel="noopener" title="TikTok" aria-label="Dremo on TikTok">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43V8.9a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.84-.33z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/dremo.fun?igsh=eHlwYjl1emkyYXVx" target="_blank" rel="noopener" title="Instagram" aria-label="Dremo on Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          </a>
+          <a href="https://www.threads.com/@dremo.fun2026" target="_blank" rel="noopener" title="Threads" aria-label="Dremo on Threads">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2C6.5 2 3 5.5 3 12s3.5 10 9 10c5 0 8.5-3 8.5-7.2 0-3.6-2.6-5.8-6.4-5.8-1.7 0-3.3.5-4.5 1.5"/><path d="M9 13c.7 1.4 2 2.2 3.5 2.2 2 0 3.3-1 3.3-2.7 0-1.7-1.4-2.7-3.6-2.7"/></svg>
+          </a>
         </div>
       </div>
       <div class="footer-col">
@@ -243,6 +273,79 @@
     </div>
   </div>
 </footer>
+
+<!-- ========== EARLY-ACCESS MODAL ========== -->
+<div class="modal-backdrop" id="earlyAccessModal" role="dialog" aria-modal="true" aria-labelledby="eaTitle">
+  <div class="modal">
+    <button class="modal-close" data-close-modal aria-label="Close">✕</button>
+    <div class="modal-body">
+      <span class="modal-badge">★ EARLY ACCESS</span>
+      <h2 id="eaTitle">Get <em>first access</em> to&nbsp;Dremo.</h2>
+      <p>Drop your email and we'll send you an invite the moment we open the doors. No spam — just one email when you're in.</p>
+      <form class="modal-form" id="earlyAccessForm" novalidate>
+        <input type="email" required class="modal-input" placeholder="your@email.com" autocomplete="email" />
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" data-close-modal>Cancel</button>
+          <button type="submit" class="btn btn-glow">Request Access</button>
+        </div>
+      </form>
+      <div class="modal-foot">
+        <span>🔒 No spam</span>
+        <span>🆓 First 3 episodes free</span>
+      </div>
+    </div>
+    <div class="modal-success">
+      <div class="modal-success-icon">✓</div>
+      <h3>You're on the list!</h3>
+      <p>We'll email you when your invite is ready. Welcome to the family. 🩷</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const modal = document.getElementById('earlyAccessModal');
+    const burger = document.getElementById('navBurger');
+    const navLinks = document.getElementById('navLinks');
+    if (burger && navLinks) {
+      burger.addEventListener('click', () => navLinks.classList.toggle('open'));
+    }
+    if (!modal) return;
+    const form = modal.querySelector('#earlyAccessForm');
+    const body = modal.querySelector('.modal-body');
+    const success = modal.querySelector('.modal-success');
+    const open = () => {
+      modal.classList.add('show');
+      document.body.style.overflow = 'hidden';
+      success.classList.remove('show');
+      body.style.display = '';
+      if (form) form.reset();
+      setTimeout(() => modal.querySelector('input[type=email]')?.focus(), 200);
+    };
+    const close = () => {
+      modal.classList.remove('show');
+      document.body.style.overflow = '';
+    };
+    document.querySelectorAll('.open-modal, [href="#join"], [href="#request-access"], [href="#start-1w"], [href="#start-4w"], [href="#start-annual"], [href="#invite"]').forEach(el => {
+      el.addEventListener('click', e => { e.preventDefault(); open(); });
+    });
+    modal.querySelectorAll('[data-close-modal]').forEach(el => {
+      el.addEventListener('click', e => { e.preventDefault(); close(); });
+    });
+    modal.addEventListener('click', e => { if (e.target === modal) close(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('show')) close(); });
+    if (form) {
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        const input = form.querySelector('input[type=email]');
+        if (!input || !input.value.includes('@')) { input?.focus(); return; }
+        body.style.display = 'none';
+        success.classList.add('show');
+        setTimeout(close, 3200);
+      });
+    }
+  })();
+</script>
 
 </body>
 </html>
