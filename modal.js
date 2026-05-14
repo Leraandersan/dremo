@@ -1,44 +1,21 @@
 /* =========================================================
    Dremo — Early Access Modal + Email Collection
    ---------------------------------------------------------
-   This handles the "Join Early Access" popup AND collects
-   submitted emails to your database.
+   Currently configured: Google Forms
+   Form: https://docs.google.com/forms/d/e/1FAIpQLSfEDYpbpCS0g19lRrjP4Pe7e6HxSOXyfbfkVpLOFsT4cf4XvA/formResponse
+   Entry ID: entry.1351194870
 
-   👉 SETUP (one-time, 2 minutes):
+   All submissions land in your linked Google Sheet
+   (open the form → Responses tab → Sheets icon to view).
 
-   Option A — Formspree (recommended, easiest, free 50/month)
-   1. Go to https://formspree.io  →  sign up free
-   2. Click "+ New Form"  →  give it a name (e.g. "Dremo Early Access")
-   3. Copy your form endpoint — looks like:
-        https://formspree.io/f/abcdwxyz
-   4. Paste it below in CONFIG.endpoint, replacing the placeholder.
-   5. Push to GitHub. All submissions appear in your Formspree
-      dashboard AND in your email inbox.
-
-   Option B — Google Forms (free, unlimited, results in Google Sheet)
-   1. Go to https://forms.google.com  →  Blank form
-   2. Add a single "Short answer" question called "Email"
-   3. Top right: ⋮ menu  →  "Get pre-filled link"  →  type "test@test.com"
-      in the email field  →  click "Get link"
-   4. Look at the link — it contains  entry.NUMBERS=test%40test.com
-      Copy that  entry.NUMBERS  part (e.g.  entry.123456789)
-   5. Your form URL is the one in the browser; replace "/viewform"
-      with "/formResponse". Example:
-        https://docs.google.com/forms/d/e/XXXX/formResponse
-   6. Set CONFIG.endpoint to that URL, and CONFIG.googleEntryId
-      to your entry.NUMBERS value, and CONFIG.mode to 'googleform'.
-   7. Open the form  →  Responses tab  →  click the Sheets icon to
-      create a live Google Sheet of all signups.
-
-   No setup? Submissions are saved to the browser's localStorage as
-   a fallback so you don't lose any emails during testing.
+   Browser localStorage backup is also active under key
+   "dremo_early_access_signups" in case a request fails.
    ========================================================= */
 
 const CONFIG = {
-  /* CHANGE THIS to your Formspree URL after signing up */
-  endpoint: 'https://formspree.io/f/YOUR_FORM_ID',
-  mode: 'formspree',   // 'formspree' | 'googleform'
-  googleEntryId: 'entry.0000000000',  // only used for googleform mode
+  mode: 'googleform',    // 'googleform' | 'formspree'
+  endpoint: 'https://docs.google.com/forms/d/e/1FAIpQLSfEDYpbpCS0g19lRrjP4Pe7e6HxSOXyfbfkVpLOFsT4cf4XvA/formResponse',
+  googleEntryId: 'entry.1351194870',
 };
 
 (function () {
@@ -94,7 +71,7 @@ const CONFIG = {
 
   // === EMAIL COLLECTION ===
 
-  /** Save to browser as a backup so emails never get lost during dev/testing */
+  /** Save to browser as a backup so emails never get lost */
   function saveLocally(email) {
     try {
       const key = 'dremo_early_access_signups';
@@ -104,7 +81,7 @@ const CONFIG = {
     } catch (e) { /* private mode etc — ignore */ }
   }
 
-  /** Submit to Formspree */
+  /** Submit to Formspree (JSON, returns success/failure) */
   async function submitFormspree(email) {
     const res = await fetch(CONFIG.endpoint, {
       method: 'POST',
@@ -139,7 +116,7 @@ const CONFIG = {
 
     if (isPlaceholder) {
       console.warn('[Dremo] No CONFIG.endpoint set — email saved to localStorage only. See modal.js for setup instructions.');
-      return; // still resolve as success — we have it locally
+      return;
     }
 
     if (CONFIG.mode === 'googleform') return submitGoogleForm(email);
@@ -167,8 +144,7 @@ const CONFIG = {
         await submitEmail(email);
       } catch (err) {
         console.error('[Dremo] Email submission error:', err);
-        // We still saved to localStorage — show success anyway so user
-        // isn't blocked. (Real failures are extremely rare with Formspree.)
+        // localStorage still has the email — proceed to success state
       }
 
       // Success state
