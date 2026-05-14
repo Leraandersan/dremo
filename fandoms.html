@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fandom Rooms — Find your people · Dremo</title>
+<meta name="description" content="Dedicated rooms for every show. Find your people. Share fan edits. Get spoiler-free recommendations. Keep the story alive between episodes." />
+<link rel="icon" type="image/png" href="logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Fandoms-specific styling */
+  .fandoms-hero {
+    margin-top: 28px;
+    padding: 40px 36px;
+    border-radius: var(--radius-lg);
+    background:
+      radial-gradient(600px 300px at 80% 20%, rgba(139,92,246,0.22), transparent),
+      radial-gradient(500px 280px at 10% 90%, rgba(255,45,111,0.20), transparent),
+      linear-gradient(135deg, #1a0533 0%, #0a0510 100%);
+    border: 1px solid rgba(139,92,246,0.22);
+    position: relative;
+    overflow: hidden;
+  }
+  .fandoms-hero h1 {
+    font-size: clamp(34px, 5vw, 54px);
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+    margin-bottom: 12px;
+  }
+  .fandoms-hero h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, #fff, #c084fc, #ec4899);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .fandoms-hero p {
+    color: var(--text-2);
+    font-size: 16px;
+    max-width: 620px;
+    margin-bottom: 22px;
+  }
+  .fandoms-stats {
+    display: flex; gap: 26px; flex-wrap: wrap;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .fandoms-stat .num {
+    display: block;
+    font-size: 22px; font-weight: 900;
+    background: linear-gradient(135deg, #fff, #ffd1e0);
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+  .fandoms-stat .lbl {
+    font-size: 11px; color: var(--text-3);
+    font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+  }
+
+  .fandom-section-title {
+    margin: 40px 0 16px;
+    font-size: 22px; font-weight: 800;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .fandom-section-title .accent {
+    background: var(--grad-hero);
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+  }
+
+  /* Featured fandom rooms — large cards */
+  .fandom-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 18px;
+  }
+  .fandom-feature {
+    position: relative;
+    background: linear-gradient(180deg, var(--surface), var(--bg-2));
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 22px;
+    transition: all 0.25s;
+    overflow: hidden;
+  }
+  .fandom-feature:hover {
+    border-color: rgba(255,45,111,0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 24px 50px rgba(0,0,0,0.4);
+  }
+  .fandom-feature::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(400px 200px at 110% -20%, var(--feature-glow, rgba(255,45,111,0.16)), transparent);
+    pointer-events: none;
+  }
+  .fandom-feature.ceo     { --feature-glow: rgba(255,45,111,0.18); }
+  .fandom-feature.villain { --feature-glow: rgba(139,92,246,0.20); }
+  .fandom-feature.crying  { --feature-glow: rgba(236,72,153,0.18); }
+  .fandom-feature.theory  { --feature-glow: rgba(6,182,212,0.18); }
+  .fandom-feature.slow    { --feature-glow: rgba(255,122,24,0.18); }
+  .fandom-feature.dir     { --feature-glow: rgba(255,184,0,0.18); }
+
+  .fandom-feature-head {
+    display: flex; align-items: flex-start; gap: 12px;
+    margin-bottom: 14px;
+    position: relative;
+  }
+  .fandom-feature-icon {
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    background: var(--bg-3);
+    display: grid; place-items: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  .fandom-feature-name {
+    font-size: 18px; font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+  .fandom-feature-tag {
+    font-size: 12px;
+    color: var(--text-3);
+    font-weight: 600;
+  }
+  .fandom-feature-tag .live-dot { margin-right: 4px; }
+
+  .fandom-feature-desc {
+    font-size: 14px;
+    color: var(--text-2);
+    line-height: 1.5;
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .fandom-members {
+    display: flex; align-items: center;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .fandom-members .avatar-mini {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    margin-left: -8px;
+    border: 2px solid var(--bg-2);
+    font-size: 10px;
+  }
+  .fandom-members .avatar-mini:first-child { margin-left: 0; }
+  .fandom-members .count {
+    margin-left: 10px;
+    font-size: 13px; font-weight: 700;
+    color: var(--text-2);
+  }
+
+  /* Sample posts inside a feature card */
+  .fandom-post-stack {
+    display: flex; flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .fandom-post {
+    background: var(--bg-3);
+    border-radius: 10px;
+    padding: 10px 12px;
+    display: flex; gap: 10px;
+    align-items: flex-start;
+  }
+  .fandom-post .avatar {
+    width: 24px; height: 24px;
+    font-size: 10px;
+    flex-shrink: 0;
+  }
+  .fandom-post-text {
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--text);
+    flex: 1;
+  }
+  .fandom-post-text b { font-weight: 700; }
+  .fandom-post-meta {
+    font-size: 11px;
+    color: var(--text-3);
+    margin-top: 4px;
+    display: flex; gap: 10px;
+  }
+
+  .fandom-feature-cta {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    position: relative;
+  }
+  .fandom-feature-cta .activity {
+    font-size: 12px;
+    font-weight: 700;
+    color: #6ee7a8;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .fandom-feature-cta .join-btn {
+    background: linear-gradient(135deg, #ff7a18, #ff2d6f, #c026d3);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 12px; font-weight: 800;
+    text-decoration: none;
+    transition: transform 0.15s;
+  }
+  .fandom-feature-cta .join-btn:hover { transform: translateY(-2px); }
+
+  /* Show-based fandom rooms (compact directory) */
+  .show-rooms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .show-room {
+    display: flex; gap: 14px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px;
+    transition: all 0.18s;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+  .show-room:hover {
+    background: var(--surface-2);
+    transform: translateX(4px);
+  }
+  .show-room-poster {
+    width: 56px; aspect-ratio: 9/16;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .show-room-poster .poster::before { background: transparent; }
+  .show-room-info { flex: 1; min-width: 0; }
+  .show-room-name {
+    font-size: 14px; font-weight: 800;
+    margin-bottom: 4px;
+    line-height: 1.25;
+  }
+  .show-room-meta {
+    font-size: 11px; color: var(--text-3);
+    margin-bottom: 6px;
+  }
+  .show-room-live {
+    font-size: 11px; font-weight: 700;
+    color: #6ee7a8;
+    display: inline-flex; align-items: center; gap: 5px;
+  }
+
+  @media (max-width: 640px) {
+    .fandoms-hero { padding: 28px 22px; }
+    .fandom-feature-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="logo">
+      <img src="logo.png" alt="Dremo" class="logo-img"/>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="community.html" class="active">Community</a>
+      <a href="pricing.html">Pricing</a>
+    </nav>
+    <button class="nav-burger" id="navBurger" aria-label="Menu">☰</button>
+    <a href="#join" class="btn btn-glow open-modal" style="margin-left:auto;">Join Early Access</a>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- Breadcrumb -->
+  <div style="margin-top: 24px; color: var(--text-3); font-size: 14px;">
+    <a href="index.html" style="color:var(--text-2);">Home</a>
+    <span style="margin: 0 8px;">›</span>
+    <a href="community.html" style="color:var(--text-2);">Community</a>
+    <span style="margin: 0 8px;">›</span>
+    <span>Fandom Rooms</span>
+  </div>
+
+  <section class="fandoms-hero">
+    <h1>👯 Fandom <em>Rooms</em></h1>
+    <p>Every show has its tribe. Team CEO. Villain Defense Squad. Crying Club. Episode Theory Room. Join the rooms that fit your obsession, share fan edits, vote on awards, and keep the story alive between episodes.</p>
+    <div class="fandoms-stats">
+      <div class="fandoms-stat"><span class="num">1,420</span><span class="lbl">Active rooms</span></div>
+      <div class="fandoms-stat"><span class="num"><span class="live-dot"></span>9,438</span><span class="lbl">Members online</span></div>
+      <div class="fandoms-stat"><span class="num">24,103</span><span class="lbl">Fan edits this month</span></div>
+      <div class="fandoms-stat"><span class="num">142</span><span class="lbl">New rooms this week</span></div>
+    </div>
+  </section>
+
+  <!-- Filter chips -->
+  <div class="filter-chips">
+    <button class="cat-chip active">🔥 Trending</button>
+    <button class="cat-chip">✨ New</button>
+    <button class="cat-chip">📌 My Rooms</button>
+    <button class="cat-chip">🎬 By Show</button>
+    <button class="cat-chip">🎭 By Vibe</button>
+  </div>
+
+  <!-- =========== FEATURED ROOMS (vibe-based, large cards) =========== -->
+  <h2 class="fandom-section-title">⭐ Featured <span class="accent">Rooms</span></h2>
+
+  <div class="fandom-feature-grid">
+
+    <!-- Team CEO -->
+    <div class="fandom-feature ceo">
+      <div class="fandom-feature-head">
+        <div class="fandom-feature-icon">💼</div>
+        <div>
+          <div class="fandom-feature-name">Team CEO</div>
+          <div class="fandom-feature-tag"><span class="live-dot"></span>3,418 online · 42,108 members</div>
+        </div>
+      </div>
+      <p class="fandom-feature-desc">For the girls (and boys) who fell for Adrian Cole first and refuse to apologize. We post receipts. We defend the necklace scene. We argue with Team Younger Brother daily.</p>
+      <div class="fandom-members">
+        <div class="avatar avatar-mini av-1">J</div>
+        <div class="avatar avatar-mini av-2">M</div>
+        <div class="avatar avatar-mini av-3">L</div>
+        <div class="avatar avatar-mini av-4">A</div>
+        <div class="avatar avatar-mini av-5">K</div>
+        <span class="count">+ 42.1K members</span>
+      </div>
+      <div class="fandom-post-stack">
+        <div class="fandom-post">
+          <div class="avatar av-1">JS</div>
+          <div>
+            <div class="fandom-post-text"><b>Jess S.</b> guys the necklace scene wins this week's "make me cry" award. official ruling.</div>
+            <div class="fandom-post-meta"><span>❤️ 248</span><span>💬 32</span><span>12 min ago</span></div>
+          </div>
+        </div>
+        <div class="fandom-post">
+          <div class="avatar av-3">DK</div>
+          <div>
+            <div class="fandom-post-text"><b>Dani K.</b> drop your top 3 Adrian scenes — i'm making an edit and need contributions 🩷</div>
+            <div class="fandom-post-meta"><span>❤️ 142</span><span>💬 87 replies</span><span>1h ago</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="fandom-feature-cta">
+        <span class="activity"><span class="live-dot"></span>247 messages today</span>
+        <a href="#" class="join-btn">Join room →</a>
+      </div>
+    </div>
+
+    <!-- Villain Defense Squad -->
+    <div class="fandom-feature villain">
+      <div class="fandom-feature-head">
+        <div class="fandom-feature-icon">😈</div>
+        <div>
+          <div class="fandom-feature-name">Villain Defense Squad</div>
+          <div class="fandom-feature-tag"><span class="live-dot"></span>1,204 online · 18,742 members</div>
+        </div>
+      </div>
+      <p class="fandom-feature-desc">Victoria Sterling deserved better. The stepmother in Midnight Heiress had reasons. The board chairman in Last Inheritance had a POINT. We defend morally complicated women. Fight us in the thread.</p>
+      <div class="fandom-members">
+        <div class="avatar avatar-mini av-5">V</div>
+        <div class="avatar avatar-mini av-6">R</div>
+        <div class="avatar avatar-mini av-1">T</div>
+        <div class="avatar avatar-mini av-3">D</div>
+        <div class="avatar avatar-mini av-2">N</div>
+        <span class="count">+ 18.7K members</span>
+      </div>
+      <div class="fandom-post-stack">
+        <div class="fandom-post">
+          <div class="avatar av-6">VR</div>
+          <div>
+            <div class="fandom-post-text"><b>Vera R.</b> the line "I made the board what it is" — chef's kiss. she's not the villain, she's the protagonist of a different show.</div>
+            <div class="fandom-post-meta"><span>❤️ 412</span><span>💬 89</span><span>34 min ago</span></div>
+          </div>
+        </div>
+        <div class="fandom-post">
+          <div class="avatar av-2">PT</div>
+          <div>
+            <div class="fandom-post-text"><b>Pippa T.</b> hot take: every "villain" in Dremo Originals is just a woman who got tired of asking nicely</div>
+            <div class="fandom-post-meta"><span>❤️ 891</span><span>💬 184</span><span>2h ago</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="fandom-feature-cta">
+        <span class="activity"><span class="live-dot"></span>89 messages today</span>
+        <a href="#" class="join-btn">Join room →</a>
+      </div>
+    </div>
+
+    <!-- Crying Club -->
+    <div class="fandom-feature crying">
+      <div class="fandom-feature-head">
+        <div class="fandom-feature-icon">😭</div>
+        <div>
+          <div class="fandom-feature-name">Crying Club</div>
+          <div class="fandom-feature-tag"><span class="live-dot"></span>2,847 online · 31,402 members</div>
+        </div>
+      </div>
+      <p class="fandom-feature-desc">For when EP 9 wrecked you. For when the cake scene happened and you needed other people who got it. Drop your tears here. We bring tissues and group hugs. No judgement.</p>
+      <div class="fandom-members">
+        <div class="avatar avatar-mini av-2">K</div>
+        <div class="avatar avatar-mini av-4">S</div>
+        <div class="avatar avatar-mini av-1">N</div>
+        <div class="avatar avatar-mini av-5">E</div>
+        <div class="avatar avatar-mini av-6">M</div>
+        <span class="count">+ 31.4K members</span>
+      </div>
+      <div class="fandom-post-stack">
+        <div class="fandom-post">
+          <div class="avatar av-5">KP</div>
+          <div>
+            <div class="fandom-post-text"><b>Kira P.</b> guys i am sobbing on the metro. i opened EP 9 thinking "okay, 90 seconds, harmless". this is going to be my villain origin story.</div>
+            <div class="fandom-post-meta"><span>😭 612</span><span>🩷 248</span><span>💬 81</span><span>6 min ago</span></div>
+          </div>
+        </div>
+        <div class="fandom-post">
+          <div class="avatar av-1">SO</div>
+          <div>
+            <div class="fandom-post-text"><b>Sasha O.</b> daily reminder: it is OKAY to cry over fictional billionaires. it is also okay to schedule it.</div>
+            <div class="fandom-post-meta"><span>❤️ 1,418</span><span>💬 142</span><span>3h ago</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="fandom-feature-cta">
+        <span class="activity"><span class="live-dot"></span>418 messages today · pin alert</span>
+        <a href="#" class="join-btn">Join room →</a>
+      </div>
+    </div>
+
+    <!-- Episode Theory Room -->
+    <div class="fandom-feature theory">
+      <div class="fandom-feature-head">
+        <div class="fandom-feature-icon">🕵️</div>
+        <div>
+          <div class="fandom-feature-name">Episode Theory Room</div>
+          <div class="fandom-feature-tag"><span class="live-dot"></span>1,892 online · 24,608 members</div>
+        </div>
+      </div>
+      <p class="fandom-feature-desc">Spoiler-friendly. We post receipts. We connect timelines. We screenshot the briefcase in EP 4 and the same briefcase in EP 11. <strong style="color:var(--text);">Open warning: heavy spoilers in every thread.</strong></p>
+      <div class="fandom-members">
+        <div class="avatar avatar-mini av-3">P</div>
+        <div class="avatar avatar-mini av-6">Q</div>
+        <div class="avatar avatar-mini av-2">W</div>
+        <div class="avatar avatar-mini av-4">B</div>
+        <div class="avatar avatar-mini av-5">F</div>
+        <span class="count">+ 24.6K members</span>
+      </div>
+      <div class="fandom-post-stack">
+        <div class="fandom-post">
+          <div class="avatar av-3">QW</div>
+          <div>
+            <div class="fandom-post-text"><b>Quinn W.</b> wait. the photograph in the drawer in EP 6. zoom in on the reflection. that's the SAME ring from EP 1. someone tell me i'm crazy.</div>
+            <div class="fandom-post-meta"><span>🔍 348</span><span>💬 142 theories</span><span>45 min ago</span></div>
+          </div>
+        </div>
+        <div class="fandom-post">
+          <div class="avatar av-4">BR</div>
+          <div>
+            <div class="fandom-post-text"><b>Bea R.</b> i have a timeline. it's 8000 words. i am NOT okay. link below if anyone wants to argue with me.</div>
+            <div class="fandom-post-meta"><span>❤️ 612</span><span>💬 94</span><span>2h ago</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="fandom-feature-cta">
+        <span class="activity"><span class="live-dot"></span>156 messages today</span>
+        <a href="#" class="join-btn">Join room →</a>
+      </div>
+    </div>
+
+    <!-- Slow-Burn Survivors -->
+    <div class="fandom-feature slow">
+      <div class="fandom-feature-head">
+        <div class="fandom-feature-icon">🩷</div>
+        <div>
+          <div class="fandom-feature-name">Slow-Burn Survivors</div>
+          <div class="fandom-feature-tag"><span class="live-dot"></span>1,138 online · 16,902 members</div>
+        </div>
+      </div>
+      <p class="fandom-feature-desc">72 episodes of tension. We made it. We are NOT okay. This is the support group for everyone who said "I'll just watch one episode" and is now on episode 47 at 4am.</p>
+      <div class="fandom-members">
+        <div class="avatar avatar-mini av-1">F</div>
+        <div class="avatar avatar-mini av-3">G</div>
+        <div class="avatar avatar-mini av-5">H</div>
+        <div class="avatar avatar-mini av-2">I</div>
+        <div class="avatar avatar-mini av-4">L</div>
+        <span class="count">+ 16.9K members</span>
+      </div>
+      <div class="fandom-post-stack">
+        <div class="fandom-post">
+          <div class="avatar av-5">HH</div>
+          <div>
+            <div class="fandom-post-text"><b>Hanna H.</b> 71 episodes in. they STILL haven't kissed. WHO is writing this. who hurt them. i love it. i hate it. i will finish it.</div>
+            <div class="fandom-post-meta"><span>😭 412</span><span>💬 89</span><span>1h ago</span></div>
+          </div>
+        </div>
+        <div class="fandom-post">
+          <div class="avatar av-2">II</div>
+          <div>
+            <div class="fandom-post-text"><b>Iris I.</b> reminder for the new girls: slow burn is a contract. respect the contract. don't skip to the end.</div>
+            <div class="fandom-post-meta"><span>❤️ 248</span><span>💬 41</span><span>3h ago</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="fandom-feature-cta">
+        <span class="activity"><span class="live-dot"></span>74 messages today</span>
+        <a href="#" class="join-btn">Join room →</a>
+      </div>
+    </div>
+
+    <!-- Director's Cut -->
+    <div class="fandom-feature dir">
+      <div class="fandom-feature-head">
+        <div class="fandom-feature-icon">🎬</div>
+        <div>
+          <div class="fandom-feature-name">Director's Cut</div>
+          <div class="fandom-feature-tag"><span class="live-dot"></span>612 online · 9,418 members · 12 verified creators</div>
+        </div>
+      </div>
+      <p class="fandom-feature-desc">Writers, directors, and stars drop in. Ask anything. Get behind-the-scenes scoop. Vote on what comes next. Verified creator accounts only — fans listen and post questions.</p>
+      <div class="fandom-members">
+        <div class="avatar avatar-mini av-4">HL</div>
+        <div class="avatar avatar-mini av-6">RG</div>
+        <div class="avatar avatar-mini av-1">DM</div>
+        <div class="avatar avatar-mini av-2">JR</div>
+        <div class="avatar avatar-mini av-3">SM</div>
+        <span class="count">+ 9.4K members</span>
+      </div>
+      <div class="fandom-post-stack">
+        <div class="fandom-post">
+          <div class="avatar av-4">HL</div>
+          <div>
+            <div class="fandom-post-text"><b>Helena L. · Writer</b> answered 12 questions in the AMA last night. recap thread is pinned. next AMA: Friday 8pm ET with the director.</div>
+            <div class="fandom-post-meta"><span>❤️ 1,418</span><span>💬 248</span><span>📌 pinned</span></div>
+          </div>
+        </div>
+        <div class="fandom-post">
+          <div class="avatar av-1">JR</div>
+          <div>
+            <div class="fandom-post-text"><b>Jaxon R. · Actor</b> read your reactions to the bar scene. honestly didn't realize the line landed that hard. you guys are everything 🩷</div>
+            <div class="fandom-post-meta"><span>❤️ 2,418</span><span>💬 184</span><span>1d ago</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="fandom-feature-cta">
+        <span class="activity"><span class="live-dot"></span>AMA in 10 min</span>
+        <a href="#" class="join-btn">Join room →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- =========== SHOW-BASED ROOMS =========== -->
+  <h2 class="fandom-section-title">🎬 Rooms by <span class="accent">Show</span></h2>
+
+  <div class="show-rooms-grid">
+    <a href="#" class="show-room">
+      <div class="show-room-poster"><div class="poster" style="background-image:url('posters/my-boss-after-midnight.png')"></div></div>
+      <div class="show-room-info">
+        <div class="show-room-name">My Boss After Midnight</div>
+        <div class="show-room-meta">218K members · 38K active</div>
+        <span class="show-room-live"><span class="live-dot"></span>3,418 online</span>
+      </div>
+    </a>
+    <a href="#" class="show-room">
+      <div class="show-room-poster"><div class="poster" style="background-image:url('posters/bound-to-the-alpha.png')"></div></div>
+      <div class="show-room-info">
+        <div class="show-room-name">Bound to the Alpha</div>
+        <div class="show-room-meta">192K members · 27K active</div>
+        <span class="show-room-live"><span class="live-dot"></span>2,847 online</span>
+      </div>
+    </a>
+    <a href="#" class="show-room">
+      <div class="show-room-poster"><div class="poster" style="background-image:url('posters/the-last-inheritance.png')"></div></div>
+      <div class="show-room-info">
+        <div class="show-room-name">The Last Inheritance</div>
+        <div class="show-room-meta">241K members · 51K active</div>
+        <span class="show-room-live"><span class="live-dot"></span>4,108 online</span>
+      </div>
+    </a>
+    <a href="#" class="show-room">
+      <div class="show-room-poster"><div class="poster" style="background-image:url('posters/marry-my-enemy.png')"></div></div>
+      <div class="show-room-info">
+        <div class="show-room-name">Marry My Enemy</div>
+        <div class="show-room-meta">156K members · 18K active</div>
+        <span class="show-room-live"><span class="live-dot"></span>1,892 online</span>
+      </div>
+    </a>
+    <a href="#" class="show-room">
+      <div class="show-room-poster"><div class="poster" style="background-image:url('posters/one-night-two-brothers.png')"></div></div>
+      <div class="show-room-info">
+        <div class="show-room-name">One Night, Two Brothers</div>
+        <div class="show-room-meta">174K members · 22K active</div>
+        <span class="show-room-live"><span class="live-dot"></span>1,712 online</span>
+      </div>
+    </a>
+    <a href="#" class="show-room">
+      <div class="show-room-poster"><div class="poster" style="background-image:url('posters/pregnant-by-the-vampire-king.png')"></div></div>
+      <div class="show-room-info">
+        <div class="show-room-name">Pregnant by the Vampire King</div>
+        <div class="show-room-meta">128K members · 14K active</div>
+        <span class="show-room-live"><span class="live-dot"></span>1,108 online</span>
+      </div>
+    </a>
+    <a href="#" class="show-room">
+      <div class="show-room-poster"><div class="poster" style="background-image:url('posters/midnight-heiress.png')"></div></div>
+      <div class="show-room-info">
+        <div class="show-room-name">The Midnight Heiress</div>
+        <div class="show-room-meta">112K members · 12K active</div>
+        <span class="show-room-live"><span class="live-dot"></span>892 online</span>
+      </div>
+    </a>
+    <a href="#" class="show-room">
+      <div class="show-room-poster"><div class="poster" style="background-image:url('posters/the-moon-garden.png')"></div></div>
+      <div class="show-room-info">
+        <div class="show-room-name">The Moon Garden</div>
+        <div class="show-room-meta">88K members · 9K active</div>
+        <span class="show-room-live"><span class="live-dot"></span>674 online</span>
+      </div>
+    </a>
+    <a href="#" class="show-room">
+      <div class="show-room-poster"><div class="poster" style="background-image:url('posters/static-at-3am.png')"></div></div>
+      <div class="show-room-info">
+        <div class="show-room-name">Static at 3AM</div>
+        <div class="show-room-meta">74K members · 7K active</div>
+        <span class="show-room-live"><span class="live-dot"></span>418 online</span>
+      </div>
+    </a>
+    <a href="#" class="show-room">
+      <div class="show-room-poster"><div class="poster" style="background-image:url('posters/the-second-wife.png')"></div></div>
+      <div class="show-room-info">
+        <div class="show-room-name">The Second Wife</div>
+        <div class="show-room-meta">68K members · 6K active</div>
+        <span class="show-room-live"><span class="live-dot"></span>312 online</span>
+      </div>
+    </a>
+    <a href="#" class="show-room">
+      <div class="show-room-poster"><div class="poster" style="background-image:url('posters/girl-in-the-reflection.png')"></div></div>
+      <div class="show-room-info">
+        <div class="show-room-name">The Girl in the Reflection</div>
+        <div class="show-room-meta">52K members · 5K active</div>
+        <span class="show-room-live"><span class="live-dot"></span>289 online</span>
+      </div>
+    </a>
+    <a href="#" class="show-room">
+      <div class="show-room-poster"><div class="poster" style="background-image:url('posters/flatmates-on-fire.png')"></div></div>
+      <div class="show-room-info">
+        <div class="show-room-name">Flatmates on Fire</div>
+        <div class="show-room-meta">42K members · 4K active</div>
+        <span class="show-room-live"><span class="live-dot"></span>184 online</span>
+      </div>
+    </a>
+  </div>
+
+  <div style="display:grid;place-items:center;margin:40px 0;">
+    <button class="btn btn-ghost btn-lg">Browse all 1,420 rooms ↓</button>
+  </div>
+
+  <!-- =========== HOUSE RULES =========== -->
+  <section style="margin-top: 32px;">
+    <h2 class="fandom-section-title">🏠 House <span class="accent">Rules</span></h2>
+    <div class="pillars-grid">
+      <div class="pillar">
+        <div class="pillar-num">RULE 01</div>
+        <h3>Be kind. Always.</h3>
+        <p>Disagreement is welcome. Cruelty is not. We moderate quickly because fandom should feel fun, safe, and welcoming — not like a battlefield.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">RULE 02</div>
+        <h3>Tag your spoilers.</h3>
+        <p>New viewers join every minute. Use the spoiler tag (⚠️) so everyone gets to experience the gasps for the first time. Theory rooms are exempt — they're spoiler-friendly by default.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">RULE 03</div>
+        <h3>No harassment. No ragebait. No pile-ons.</h3>
+        <p>This isn't a marketplace and it isn't a stage. Self-promo, brigading, and bad-faith arguments get zero airtime. The drama belongs on screen.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="app-cta">
+    <div class="app-cta-content">
+      <h2>Your fandom is <em style="font-style:normal;background:var(--grad-hero);-webkit-background-clip:text;background-clip:text;color:transparent;">already inside.</em></h2>
+      <p>Join early access and you get instant entry to all 1,420 rooms. Free forever. Watch parties built in. Cancel anytime.</p>
+      <div class="store-buttons">
+        <a href="#request-access" class="btn btn-glow btn-lg open-modal">Join Early Access</a>
+        <a href="threads.html" class="btn btn-ghost btn-lg">Explore Episode Threads →</a>
+      </div>
+    </div>
+    <div class="app-cta-phones">
+      <div class="phone">
+        <video class="phone-video" src="videos/preview-3.mp4" poster="videos/thumbs/preview-3.jpg" autoplay muted loop playsinline></video>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid-v2">
+      <div class="footer-col footer-brand">
+        <a href="index.html" class="logo"><img src="logo.png" alt="Dremo" class="logo-img"/></a>
+        <p>The short-drama community built around shared watching, live reactions, and fandom. 4.2M fans. 18,000+ shows.</p>
+        <div class="social-row">
+          <a href="https://vm.tiktok.com/ZNRspoKQs/" target="_blank" rel="noopener" title="TikTok" aria-label="Dremo on TikTok">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43V8.9a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.84-.33z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/dremo.fun?igsh=eHlwYjl1emkyYXVx" target="_blank" rel="noopener" title="Instagram" aria-label="Dremo on Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          </a>
+          <a href="https://www.threads.com/@dremo.fun2026" target="_blank" rel="noopener" title="Threads" aria-label="Dremo on Threads">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2C6.5 2 3 5.5 3 12s3.5 10 9 10c5 0 8.5-3 8.5-7.2 0-3.6-2.6-5.8-6.4-5.8-1.7 0-3.3.5-4.5 1.5"/><path d="M9 13c.7 1.4 2 2.2 3.5 2.2 2 0 3.3-1 3.3-2.7 0-1.7-1.4-2.7-3.6-2.7"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Discover</h4>
+        <a href="browse.html">Browse</a>
+        <a href="browse.html#trending">Trending</a>
+        <a href="browse.html#originals">Originals</a>
+        <a href="browse.html#new">New Releases</a>
+        <a href="pricing.html">Pricing</a>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <a href="threads.html">Episode Threads</a>
+        <a href="fandoms.html">Fandom Rooms</a>
+        <a href="community.html#amas">Creator AMAs</a>
+        <a href="community.html#awards">Weekly Awards</a>
+      </div>
+      <div class="footer-col">
+        <h4>Creators</h4>
+        <a href="#creator-program">Creator Program</a>
+        <a href="#become-a-creator">Become a Creator</a>
+        <a href="#press-kit">Press Kit</a>
+        <a href="#partners">Partners</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="#contact">Contact</a>
+        <a href="#faq">FAQ</a>
+        <a href="#help">Help Center</a>
+        <a href="#terms">Terms</a>
+        <a href="#privacy">Privacy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Dremo Studios. All rights reserved.</span>
+      <span>Drama. Stories. Connections.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- EARLY-ACCESS MODAL -->
+<div class="modal-backdrop" id="earlyAccessModal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <button class="modal-close" data-close-modal aria-label="Close">✕</button>
+    <div class="modal-body">
+      <span class="modal-badge">★ EARLY ACCESS</span>
+      <h2>Get <em>first access</em> to&nbsp;Dremo.</h2>
+      <p>Drop your email and we'll send you an invite the moment we open the doors. No spam — just one email when you're in.</p>
+      <form class="modal-form" id="earlyAccessForm" novalidate>
+        <input type="email" required class="modal-input" placeholder="your@email.com" autocomplete="email" />
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" data-close-modal>Cancel</button>
+          <button type="submit" class="btn btn-glow">Request Access</button>
+        </div>
+      </form>
+      <div class="modal-foot"><span>🔒 No spam</span><span>🆓 First 3 episodes free</span></div>
+    </div>
+    <div class="modal-success">
+      <div class="modal-success-icon">✓</div>
+      <h3>You're on the list!</h3>
+      <p>We'll email you when your invite is ready. Welcome to the family. 🩷</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.cat-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+</script>
+<script src="modal.js"></script>
+
+</body>
+</html>

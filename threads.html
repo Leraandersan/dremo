@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Episode Threads — Live discussions · Dremo</title>
+<meta name="description" content="Live reactions on every episode. React, theorize, post memes, and follow the exact moment everyone loses their mind." />
+<link rel="icon" type="image/png" href="logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Threads-specific styling */
+  .threads-hero {
+    margin-top: 28px;
+    padding: 40px 36px;
+    border-radius: var(--radius-lg);
+    background:
+      radial-gradient(600px 300px at 80% 20%, rgba(255,45,111,0.22), transparent),
+      radial-gradient(500px 280px at 10% 90%, rgba(139,92,246,0.20), transparent),
+      linear-gradient(135deg, #1a0533 0%, #0a0510 100%);
+    border: 1px solid rgba(255,45,111,0.22);
+    position: relative;
+    overflow: hidden;
+  }
+  .threads-hero h1 {
+    font-size: clamp(34px, 5vw, 54px);
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+    margin-bottom: 12px;
+  }
+  .threads-hero h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, #fff, #ff5e95, #ff7a18);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .threads-hero p {
+    color: var(--text-2);
+    font-size: 16px;
+    max-width: 620px;
+    margin-bottom: 22px;
+  }
+  .threads-stats {
+    display: flex; gap: 26px; flex-wrap: wrap;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .threads-stat .num {
+    display: block;
+    font-size: 22px; font-weight: 900;
+    background: linear-gradient(135deg, #fff, #ffd1e0);
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+  .threads-stat .lbl {
+    font-size: 11px; color: var(--text-3);
+    font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+  }
+
+  .filter-chips {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    margin: 32px 0 22px;
+  }
+
+  .thread-list {
+    display: flex; flex-direction: column;
+    gap: 14px;
+  }
+  .thread-card {
+    display: grid;
+    grid-template-columns: 72px 1fr auto;
+    gap: 18px;
+    align-items: start;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px;
+    transition: all 0.2s;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+  .thread-card:hover {
+    background: var(--surface-2);
+    border-color: rgba(255, 45, 111, 0.35);
+    transform: translateY(-2px);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.3);
+  }
+  .thread-card.live {
+    border-color: rgba(255, 45, 111, 0.4);
+    background: linear-gradient(135deg, rgba(255,45,111,0.06), rgba(139,92,246,0.06));
+  }
+  .thread-poster {
+    width: 72px; aspect-ratio: 9/16;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .thread-poster .poster::before { background: transparent; }
+  .thread-info { min-width: 0; }
+  .thread-meta-row {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 12px; color: var(--text-3);
+    font-weight: 600;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .thread-show {
+    color: var(--primary);
+    font-weight: 700;
+  }
+  .thread-ep-pill {
+    background: var(--bg-3);
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 11px; font-weight: 700;
+    color: var(--text);
+  }
+  .thread-title {
+    font-size: 17px; font-weight: 800;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+  .thread-preview {
+    font-size: 14px;
+    color: var(--text-2);
+    line-height: 1.5;
+    margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .thread-preview em { color: var(--text); font-style: normal; font-weight: 600; }
+  .thread-engagement {
+    display: flex; gap: 18px;
+    font-size: 12px;
+    color: var(--text-3);
+    font-weight: 700;
+  }
+  .thread-engagement .reactions {
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .thread-engagement .reactions .emoji-stack {
+    display: inline-flex;
+  }
+  .thread-engagement .reactions .emoji-stack span {
+    display: inline-block;
+    margin-left: -6px;
+    background: var(--bg-3);
+    border-radius: 50%;
+    padding: 2px;
+    font-size: 11px;
+    line-height: 1;
+    width: 18px; height: 18px;
+    text-align: center;
+  }
+  .thread-engagement .reactions .emoji-stack span:first-child { margin-left: 0; }
+  .thread-side {
+    display: flex; flex-direction: column;
+    align-items: flex-end; gap: 8px;
+    flex-shrink: 0;
+  }
+  .thread-live-now {
+    background: rgba(34, 197, 94, 0.14);
+    color: #6ee7a8;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px; font-weight: 800;
+    display: inline-flex; align-items: center; gap: 5px;
+  }
+  .thread-join {
+    color: var(--primary);
+    font-weight: 800;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  /* Pinned thread (Writer AMA / Team announcement) */
+  .thread-card.pinned {
+    background: linear-gradient(135deg, rgba(255,184,0,0.08), rgba(255,122,24,0.06));
+    border-color: rgba(255,184,0,0.35);
+  }
+  .thread-pinned-label {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: linear-gradient(135deg, #ffb800, #ff7a18);
+    color: #1a0f2e;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 10px; font-weight: 800; letter-spacing: 0.5px;
+  }
+
+  @media (max-width: 640px) {
+    .thread-card {
+      grid-template-columns: 56px 1fr;
+      gap: 14px;
+      padding: 14px;
+    }
+    .thread-poster { width: 56px; }
+    .thread-side { grid-column: 1 / -1; flex-direction: row; justify-content: space-between; align-items: center; }
+    .threads-hero { padding: 28px 22px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="logo">
+      <img src="logo.png" alt="Dremo" class="logo-img"/>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="community.html" class="active">Community</a>
+      <a href="pricing.html">Pricing</a>
+    </nav>
+    <button class="nav-burger" id="navBurger" aria-label="Menu">☰</button>
+    <a href="#join" class="btn btn-glow open-modal" style="margin-left:auto;">Join Early Access</a>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- Breadcrumb -->
+  <div style="margin-top: 24px; color: var(--text-3); font-size: 14px;">
+    <a href="index.html" style="color:var(--text-2);">Home</a>
+    <span style="margin: 0 8px;">›</span>
+    <a href="community.html" style="color:var(--text-2);">Community</a>
+    <span style="margin: 0 8px;">›</span>
+    <span>Episode Threads</span>
+  </div>
+
+  <section class="threads-hero">
+    <h1>💬 Episode <em>Threads</em></h1>
+    <p>Every episode gets its own room. React in real time. Post memes. Theorize. Find the exact moment when everyone in the world lost their mind together. <strong style="color:var(--text);">Spoiler-safe by default.</strong></p>
+    <div class="threads-stats">
+      <div class="threads-stat"><span class="num"><span class="live-dot"></span>38,247</span><span class="lbl">Fans online</span></div>
+      <div class="threads-stat"><span class="num">4,218</span><span class="lbl">Comments today</span></div>
+      <div class="threads-stat"><span class="num">1,420</span><span class="lbl">Active threads</span></div>
+      <div class="threads-stat"><span class="num">93%</span><span class="lbl">Positive reactions</span></div>
+    </div>
+  </section>
+
+  <!-- Filter chips -->
+  <div class="filter-chips">
+    <button class="cat-chip active">🔥 Trending</button>
+    <button class="cat-chip">✨ New</button>
+    <button class="cat-chip">📌 My Shows</button>
+    <button class="cat-chip">🤍 Spoiler-Free</button>
+    <button class="cat-chip">🎬 By Genre</button>
+    <button class="cat-chip">🎙️ Creator AMAs</button>
+  </div>
+
+  <section>
+    <div class="thread-list">
+
+      <!-- Pinned: Dremo Team announcement -->
+      <a href="watch.html" class="thread-card pinned">
+        <div class="thread-poster"><div class="poster" style="background-image:url('posters/my-boss-after-midnight.png')"></div></div>
+        <div class="thread-info">
+          <div class="thread-meta-row">
+            <span class="thread-pinned-label">📌 PINNED</span>
+            <span class="thread-show">DREMO TEAM</span>
+            <span>·</span>
+            <span>2 hours ago</span>
+          </div>
+          <div class="thread-title">EP 10 drops Friday 7am ET — Writers reading this thread 🩷</div>
+          <div class="thread-preview">"The kiss everyone's been speculating about IS in this batch. Be nice to Helena and Marcus, they pour their souls into these scripts. Bring questions for the Friday AMA — <em>we'll answer the top 50 live.</em>"</div>
+          <div class="thread-engagement">
+            <span>❤️ 8,431</span>
+            <span>💬 614 replies</span>
+            <span>👁 24,108 views</span>
+          </div>
+        </div>
+        <div class="thread-side">
+          <span class="thread-live-now"><span class="live-dot"></span>HOT</span>
+          <span class="thread-join">Open thread →</span>
+        </div>
+      </a>
+
+      <!-- Live thread: My Boss After Midnight EP 9 -->
+      <a href="watch.html" class="thread-card live">
+        <div class="thread-poster"><div class="poster" style="background-image:url('posters/my-boss-after-midnight.png')"></div></div>
+        <div class="thread-info">
+          <div class="thread-meta-row">
+            <span class="thread-show">My Boss After Midnight</span>
+            <span class="thread-ep-pill">EP 9</span>
+            <span>·</span>
+            <span>Started 4 min ago</span>
+          </div>
+          <div class="thread-title">"The Necklace" — anyone else just LOST it?</div>
+          <div class="thread-preview">"Adrian buying THE necklace?? He remembered something Lila told him on night one she doesn't even remember saying. I am not okay. <em>jess_in_brooklyn started this thread.</em>"</div>
+          <div class="thread-engagement">
+            <span class="reactions">
+              <span class="emoji-stack"><span>😭</span><span>🩷</span><span>🔥</span></span>
+              3,418
+            </span>
+            <span>💬 612 replies</span>
+            <span>🟢 89 typing</span>
+          </div>
+        </div>
+        <div class="thread-side">
+          <span class="thread-live-now"><span class="live-dot"></span>LIVE</span>
+          <span class="thread-join">Join thread →</span>
+        </div>
+      </a>
+
+      <!-- Bound to the Alpha EP 12 -->
+      <a href="watch.html" class="thread-card live">
+        <div class="thread-poster"><div class="poster" style="background-image:url('posters/bound-to-the-alpha.png')"></div></div>
+        <div class="thread-info">
+          <div class="thread-meta-row">
+            <span class="thread-show">Bound to the Alpha</span>
+            <span class="thread-ep-pill">EP 12</span>
+            <span>·</span>
+            <span>Started 18 min ago</span>
+          </div>
+          <div class="thread-title">The Mark scene. We need to talk.</div>
+          <div class="thread-preview">"His eyes WHEN he marked her — I have rewound this 14 times. The detail in the second she realizes she can hear his thoughts. <em>WHO WROTE THIS, send flowers.</em>"</div>
+          <div class="thread-engagement">
+            <span class="reactions">
+              <span class="emoji-stack"><span>🐺</span><span>🔥</span><span>😭</span></span>
+              2,847
+            </span>
+            <span>💬 412 replies</span>
+            <span>🟢 67 typing</span>
+          </div>
+        </div>
+        <div class="thread-side">
+          <span class="thread-live-now"><span class="live-dot"></span>LIVE</span>
+          <span class="thread-join">Join thread →</span>
+        </div>
+      </a>
+
+      <!-- Creator AMA -->
+      <a href="watch.html" class="thread-card pinned">
+        <div class="thread-poster"><div class="poster" style="background-image:url('posters/the-last-inheritance.png')"></div></div>
+        <div class="thread-info">
+          <div class="thread-meta-row">
+            <span class="thread-pinned-label">🎙️ AMA · LIVE IN 10 MIN</span>
+            <span class="thread-show">The Last Inheritance</span>
+            <span>·</span>
+            <span>Helena L. · Writer</span>
+          </div>
+          <div class="thread-title">AMA: The boardroom slap, the will, and everything you wanted to ask</div>
+          <div class="thread-preview">"Drop your questions now — top 50 get answered LIVE. Favorite question so far: <em>'Did you write the slap from a real-life experience?'</em> 👀 Answer at 8pm ET."</div>
+          <div class="thread-engagement">
+            <span>❤️ 2,104</span>
+            <span>💬 437 questions</span>
+            <span>🎙 Going live soon</span>
+          </div>
+        </div>
+        <div class="thread-side">
+          <span class="thread-live-now" style="background:rgba(255,184,0,0.16);color:#ffb800;">⏱ 10 MIN</span>
+          <span class="thread-join">Ask now →</span>
+        </div>
+      </a>
+
+      <!-- One Night Two Brothers EP 1 -->
+      <a href="watch.html" class="thread-card">
+        <div class="thread-poster"><div class="poster" style="background-image:url('posters/one-night-two-brothers.png')"></div></div>
+        <div class="thread-info">
+          <div class="thread-meta-row">
+            <span class="thread-show">One Night, Two Brothers</span>
+            <span class="thread-ep-pill">EP 1</span>
+            <span>·</span>
+            <span>Started 1h ago</span>
+          </div>
+          <div class="thread-title">Team Marcus or Team Dylan — defend your pick</div>
+          <div class="thread-preview">"two brothers knock on her door in the SAME night and you expect me to choose? <em>i'm joining BOTH teams and you can't stop me.</em>"</div>
+          <div class="thread-engagement">
+            <span class="reactions">
+              <span class="emoji-stack"><span>💔</span><span>🩷</span><span>😅</span></span>
+              2,438
+            </span>
+            <span>💬 348 replies</span>
+            <span>🟢 47 typing</span>
+          </div>
+        </div>
+        <div class="thread-side">
+          <span class="thread-live-now"><span class="live-dot"></span>HOT</span>
+          <span class="thread-join">Join thread →</span>
+        </div>
+      </a>
+
+      <!-- Pregnant by the Vampire King EP 4 -->
+      <a href="watch.html" class="thread-card">
+        <div class="thread-poster"><div class="poster" style="background-image:url('posters/pregnant-by-the-vampire-king.png')"></div></div>
+        <div class="thread-info">
+          <div class="thread-meta-row">
+            <span class="thread-show">Pregnant by the Vampire King</span>
+            <span class="thread-ep-pill">EP 4</span>
+            <span>·</span>
+            <span>Started 3h ago</span>
+          </div>
+          <div class="thread-title">THE THRONE SCENE — is anyone breathing??</div>
+          <div class="thread-preview">"the way he picked her up. the WAY he picked her up. the line 'the throne is yours. so am I'. <em>im scheduling therapy</em>"</div>
+          <div class="thread-engagement">
+            <span class="reactions">
+              <span class="emoji-stack"><span>🩸</span><span>😭</span><span>🔥</span></span>
+              1,892
+            </span>
+            <span>💬 412 replies</span>
+          </div>
+        </div>
+        <div class="thread-side">
+          <span class="thread-join">Join thread →</span>
+        </div>
+      </a>
+
+      <!-- Marry My Enemy EP 7 -->
+      <a href="watch.html" class="thread-card">
+        <div class="thread-poster"><div class="poster" style="background-image:url('posters/marry-my-enemy.png')"></div></div>
+        <div class="thread-info">
+          <div class="thread-meta-row">
+            <span class="thread-show">Marry My Enemy</span>
+            <span class="thread-ep-pill">EP 7</span>
+            <span>·</span>
+            <span>Started 5h ago</span>
+          </div>
+          <div class="thread-title">"I'd marry you just to ruin you." — best line of 2026?</div>
+          <div class="thread-preview">"this is a NIGHTGOWN of a line. the delivery. the pause before. <em>and then he buttons her coat for her two scenes later.</em> someone is going to therapy on screen and it's me."</div>
+          <div class="thread-engagement">
+            <span class="reactions">
+              <span class="emoji-stack"><span>🔥</span><span>😭</span><span>🩷</span></span>
+              1,612
+            </span>
+            <span>💬 211 replies</span>
+          </div>
+        </div>
+        <div class="thread-side">
+          <span class="thread-join">Join thread →</span>
+        </div>
+      </a>
+
+      <!-- Midnight Heiress EP 5 (spoiler-safe) -->
+      <a href="watch.html" class="thread-card">
+        <div class="thread-poster"><div class="poster" style="background-image:url('posters/midnight-heiress.png')"></div></div>
+        <div class="thread-info">
+          <div class="thread-meta-row">
+            <span class="thread-show">The Midnight Heiress</span>
+            <span class="thread-ep-pill">EP 5</span>
+            <span>·</span>
+            <span>Spoiler-safe · 7h ago</span>
+          </div>
+          <div class="thread-title">First-timer hype thread — no spoilers allowed 🤍</div>
+          <div class="thread-preview">"just started watching tonight. <em>three episodes in and I'm already lost in the mansion timeline.</em> tell me without spoilers — is the housekeeper going to ruin me?"</div>
+          <div class="thread-engagement">
+            <span class="reactions">
+              <span class="emoji-stack"><span>🕵️</span><span>🩷</span><span>😱</span></span>
+              891
+            </span>
+            <span>💬 142 replies</span>
+            <span>🤍 Spoiler-free</span>
+          </div>
+        </div>
+        <div class="thread-side">
+          <span class="thread-join">Join thread →</span>
+        </div>
+      </a>
+
+      <!-- Static at 3AM EP 2 -->
+      <a href="watch.html" class="thread-card">
+        <div class="thread-poster"><div class="poster" style="background-image:url('posters/static-at-3am.png')"></div></div>
+        <div class="thread-info">
+          <div class="thread-meta-row">
+            <span class="thread-show">Static at 3AM</span>
+            <span class="thread-ep-pill">EP 2</span>
+            <span>·</span>
+            <span>9h ago</span>
+          </div>
+          <div class="thread-title">Who else is watching this with the lights on?</div>
+          <div class="thread-preview">"i made the mistake of opening EP 2 at midnight. <em>I have not slept.</em> the TV scene? the static scene?? the way her reflection moves a beat later than her??? excuse me??"</div>
+          <div class="thread-engagement">
+            <span class="reactions">
+              <span class="emoji-stack"><span>😱</span><span>📺</span><span>🔪</span></span>
+              1,124
+            </span>
+            <span>💬 256 replies</span>
+          </div>
+        </div>
+        <div class="thread-side">
+          <span class="thread-join">Join thread →</span>
+        </div>
+      </a>
+
+      <!-- The Moon Garden EP 6 -->
+      <a href="watch.html" class="thread-card">
+        <div class="thread-poster"><div class="poster" style="background-image:url('posters/the-moon-garden.png')"></div></div>
+        <div class="thread-info">
+          <div class="thread-meta-row">
+            <span class="thread-show">The Moon Garden</span>
+            <span class="thread-ep-pill">EP 6</span>
+            <span>·</span>
+            <span>1d ago</span>
+          </div>
+          <div class="thread-title">Fan-edit gallery — drop your edits 🌙</div>
+          <div class="thread-preview">"started a moodboard for the rose-garden chapter. midnight roses + lanterns + that ONE shot of the dress. <em>post yours below — the writers are reblogging the best ones.</em>"</div>
+          <div class="thread-engagement">
+            <span class="reactions">
+              <span class="emoji-stack"><span>🌙</span><span>🌹</span><span>🩷</span></span>
+              1,237
+            </span>
+            <span>💬 142 replies</span>
+            <span>🎨 24 edits</span>
+          </div>
+        </div>
+        <div class="thread-side">
+          <span class="thread-join">Open gallery →</span>
+        </div>
+      </a>
+
+      <!-- Flatmates on Fire EP 3 -->
+      <a href="watch.html" class="thread-card">
+        <div class="thread-poster"><div class="poster" style="background-image:url('posters/flatmates-on-fire.png')"></div></div>
+        <div class="thread-info">
+          <div class="thread-meta-row">
+            <span class="thread-show">Flatmates on Fire</span>
+            <span class="thread-ep-pill">EP 3</span>
+            <span>·</span>
+            <span>1d ago</span>
+          </div>
+          <div class="thread-title">"The pancake batter in the toaster" scene = comedy gold</div>
+          <div class="thread-preview">"i have watched this show in a roomful of people and EVERYONE laughed at the same second. <em>this is what 'comedy timing' means.</em> writer should win an award."</div>
+          <div class="thread-engagement">
+            <span class="reactions">
+              <span class="emoji-stack"><span>😂</span><span>🥞</span><span>🔥</span></span>
+              768
+            </span>
+            <span>💬 89 replies</span>
+          </div>
+        </div>
+        <div class="thread-side">
+          <span class="thread-join">Join thread →</span>
+        </div>
+      </a>
+
+    </div>
+
+    <div style="display:grid;place-items:center;margin:48px 0;">
+      <button class="btn btn-ghost btn-lg">Load more threads ↓</button>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="app-cta">
+    <div class="app-cta-content">
+      <h2>Want to <em style="font-style:normal;background:var(--grad-hero);-webkit-background-clip:text;background-clip:text;color:transparent;">join the conversation?</em></h2>
+      <p>Episode threads are open to all early access members. Free to comment. Free to react. Free to lose your mind at 2am with strangers who get it.</p>
+      <div class="store-buttons">
+        <a href="#request-access" class="btn btn-glow btn-lg open-modal">Join Early Access</a>
+        <a href="fandoms.html" class="btn btn-ghost btn-lg">Explore Fandom Rooms →</a>
+      </div>
+    </div>
+    <div class="app-cta-phones">
+      <div class="phone">
+        <video class="phone-video" src="videos/preview-1.mp4" poster="videos/thumbs/preview-1.jpg" autoplay muted loop playsinline></video>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid-v2">
+      <div class="footer-col footer-brand">
+        <a href="index.html" class="logo"><img src="logo.png" alt="Dremo" class="logo-img"/></a>
+        <p>The short-drama community built around shared watching, live reactions, and fandom. 4.2M fans. 18,000+ shows.</p>
+        <div class="social-row">
+          <a href="https://vm.tiktok.com/ZNRspoKQs/" target="_blank" rel="noopener" title="TikTok" aria-label="Dremo on TikTok">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43V8.9a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.84-.33z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/dremo.fun?igsh=eHlwYjl1emkyYXVx" target="_blank" rel="noopener" title="Instagram" aria-label="Dremo on Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          </a>
+          <a href="https://www.threads.com/@dremo.fun2026" target="_blank" rel="noopener" title="Threads" aria-label="Dremo on Threads">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2C6.5 2 3 5.5 3 12s3.5 10 9 10c5 0 8.5-3 8.5-7.2 0-3.6-2.6-5.8-6.4-5.8-1.7 0-3.3.5-4.5 1.5"/><path d="M9 13c.7 1.4 2 2.2 3.5 2.2 2 0 3.3-1 3.3-2.7 0-1.7-1.4-2.7-3.6-2.7"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Discover</h4>
+        <a href="browse.html">Browse</a>
+        <a href="browse.html#trending">Trending</a>
+        <a href="browse.html#originals">Originals</a>
+        <a href="browse.html#new">New Releases</a>
+        <a href="pricing.html">Pricing</a>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <a href="threads.html">Episode Threads</a>
+        <a href="fandoms.html">Fandom Rooms</a>
+        <a href="community.html#amas">Creator AMAs</a>
+        <a href="community.html#awards">Weekly Awards</a>
+      </div>
+      <div class="footer-col">
+        <h4>Creators</h4>
+        <a href="#creator-program">Creator Program</a>
+        <a href="#become-a-creator">Become a Creator</a>
+        <a href="#press-kit">Press Kit</a>
+        <a href="#partners">Partners</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="#contact">Contact</a>
+        <a href="#faq">FAQ</a>
+        <a href="#help">Help Center</a>
+        <a href="#terms">Terms</a>
+        <a href="#privacy">Privacy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Dremo Studios. All rights reserved.</span>
+      <span>Drama. Stories. Connections.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- EARLY-ACCESS MODAL -->
+<div class="modal-backdrop" id="earlyAccessModal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <button class="modal-close" data-close-modal aria-label="Close">✕</button>
+    <div class="modal-body">
+      <span class="modal-badge">★ EARLY ACCESS</span>
+      <h2>Get <em>first access</em> to&nbsp;Dremo.</h2>
+      <p>Drop your email and we'll send you an invite the moment we open the doors. No spam — just one email when you're in.</p>
+      <form class="modal-form" id="earlyAccessForm" novalidate>
+        <input type="email" required class="modal-input" placeholder="your@email.com" autocomplete="email" />
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" data-close-modal>Cancel</button>
+          <button type="submit" class="btn btn-glow">Request Access</button>
+        </div>
+      </form>
+      <div class="modal-foot"><span>🔒 No spam</span><span>🆓 First 3 episodes free</span></div>
+    </div>
+    <div class="modal-success">
+      <div class="modal-success-icon">✓</div>
+      <h3>You're on the list!</h3>
+      <p>We'll email you when your invite is ready. Welcome to the family. 🩷</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.cat-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+</script>
+<script src="modal.js"></script>
+
+</body>
+</html>
