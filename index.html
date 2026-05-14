@@ -33,12 +33,6 @@
 
   <!-- ========== HERO ========== -->
   <section class="hero-v2">
-    <div class="notif-stack left">
-      <div class="notif"><div class="nico">😭</div><div><b>Sarah reacted</b><span class="muted">to EP 9 · 4s ago</span></div></div>
-      <div class="notif"><div class="nico">💬</div><div><b>New theory posted</b><span class="muted">Cake scene thread</span></div></div>
-      <div class="notif"><div class="nico">🔥</div><div><b>Everyone hates the CEO</b><span class="muted">2.1k agreeing</span></div></div>
-    </div>
-
     <div class="hero-v2-content">
       <span class="hero-badge">★ EARLY ACCESS OPEN · LIVE NOW</span>
       <h1 class="hero-v2-title">Drama hits harder when you <em>watch&nbsp;together.</em></h1>
@@ -104,11 +98,6 @@
         </div>
       </div>
 
-      <div class="notif-stack right">
-        <div class="notif"><div class="nico">🎙️</div><div><b>Creator AMA in 10 min</b><span class="muted">The Last Inheritance</span></div></div>
-        <div class="notif"><div class="nico">🗳️</div><div><b>Vote closes Friday</b><span class="muted">4 categories open</span></div></div>
-        <div class="notif"><div class="nico">⚡</div><div><b>Thread exploding</b><span class="muted">612 replies in 4 min</span></div></div>
-      </div>
     </div>
   </section>
 
@@ -659,58 +648,8 @@
     document.querySelectorAll('[data-watching]').forEach(el => el.textContent = watching.toLocaleString());
   }, 3000);
 
-  // Early-Access Modal + Mobile Burger
-  (function() {
-    const modal = document.getElementById('earlyAccessModal');
-    const burger = document.getElementById('navBurger');
-    const navLinks = document.getElementById('navLinks');
-
-    if (burger && navLinks) {
-      burger.addEventListener('click', () => navLinks.classList.toggle('open'));
-    }
-
-    if (!modal) return;
-    const form = modal.querySelector('#earlyAccessForm');
-    const body = modal.querySelector('.modal-body');
-    const success = modal.querySelector('.modal-success');
-
-    const open = () => {
-      modal.classList.add('show');
-      document.body.style.overflow = 'hidden';
-      success.classList.remove('show');
-      body.style.display = '';
-      if (form) form.reset();
-      setTimeout(() => modal.querySelector('input[type=email]')?.focus(), 200);
-    };
-    const close = () => {
-      modal.classList.remove('show');
-      document.body.style.overflow = '';
-    };
-
-    document.querySelectorAll('.open-modal, [href="#join"], [href="#request-access"], [href="#start-1w"], [href="#start-4w"], [href="#start-annual"], [href="#invite"]').forEach(el => {
-      el.addEventListener('click', e => { e.preventDefault(); open(); });
-    });
-    modal.querySelectorAll('[data-close-modal]').forEach(el => {
-      el.addEventListener('click', e => { e.preventDefault(); close(); });
-    });
-    modal.addEventListener('click', e => { if (e.target === modal) close(); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('show')) close(); });
-
-    if (form) {
-      form.addEventListener('submit', e => {
-        e.preventDefault();
-        const input = form.querySelector('input[type=email]');
-        if (!input || !input.value.includes('@')) {
-          input?.focus();
-          return;
-        }
-        body.style.display = 'none';
-        success.classList.add('show');
-        setTimeout(close, 3200);
-      });
-    }
-  })();
 </script>
+<script src="modal.js"></script>
 
 </body>
 </html>

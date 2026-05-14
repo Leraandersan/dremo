@@ -287,24 +287,8 @@
 </div>
 
 <script>
-  (function() {
-    const modal = document.getElementById('earlyAccessModal');
-    const burger = document.getElementById('navBurger');
-    const navLinks = document.getElementById('navLinks');
-    if (burger && navLinks) burger.addEventListener('click', () => navLinks.classList.toggle('open'));
-    if (!modal) return;
-    const form = modal.querySelector('#earlyAccessForm');
-    const body = modal.querySelector('.modal-body');
-    const success = modal.querySelector('.modal-success');
-    const open = () => { modal.classList.add('show'); document.body.style.overflow='hidden'; success.classList.remove('show'); body.style.display=''; form?.reset(); setTimeout(()=>modal.querySelector('input[type=email]')?.focus(),200); };
-    const close = () => { modal.classList.remove('show'); document.body.style.overflow=''; };
-    document.querySelectorAll('.open-modal, [href="#join"], [href="#request-access"]').forEach(el => el.addEventListener('click', e => { e.preventDefault(); open(); }));
-    modal.querySelectorAll('[data-close-modal]').forEach(el => el.addEventListener('click', e => { e.preventDefault(); close(); }));
-    modal.addEventListener('click', e => { if (e.target === modal) close(); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('show')) close(); });
-    if (form) form.addEventListener('submit', e => { e.preventDefault(); const i=form.querySelector('input[type=email]'); if (!i||!i.value.includes('@')){i?.focus();return;} body.style.display='none'; success.classList.add('show'); setTimeout(close, 3200); });
-  })();
 </script>
+<script src="modal.js"></script>
 
 </body>
 </html>
