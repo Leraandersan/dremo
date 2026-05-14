@@ -3,19 +3,115 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Watch · Episode 1 — My Boss After Midnight — Dremo</title>
+<title>Watch · One Night, Two Brothers — Dremo</title>
 <link rel="icon" type="image/png" href="logo.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<style>
+  /* Real video element styling inside phone frame */
+  .player-video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    background: #000;
+  }
+  .player-poster.playing .player-poster-bg,
+  .player-poster.playing::before,
+  .player-poster.playing .play-button { display: none; }
+  .player-poster-bg {
+    position: absolute; inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+  }
+  /* Up-next overlay (shows after video ends) */
+  .up-next-overlay {
+    position: absolute; inset: 0;
+    z-index: 10;
+    background: rgba(10, 5, 16, 0.92);
+    backdrop-filter: blur(8px);
+    display: none;
+    flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 24px;
+    text-align: center;
+    color: white;
+  }
+  .up-next-overlay.show { display: flex; }
+  .up-next-label {
+    font-size: 11px; letter-spacing: 2px; font-weight: 800;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .up-next-title {
+    font-size: 22px; font-weight: 900;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+    background: linear-gradient(135deg, #fff, #ffd1e0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .up-next-sub {
+    font-size: 12px; color: var(--text-2);
+    margin-bottom: 18px;
+  }
+  .up-next-poster {
+    width: 110px; aspect-ratio: 9/16;
+    border-radius: 12px;
+    background-size: cover; background-position: center;
+    box-shadow: 0 12px 30px rgba(255,45,111,0.4);
+    margin-bottom: 18px;
+  }
+  .up-next-countdown {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    border: 3px solid rgba(255,255,255,0.15);
+    display: grid; place-items: center;
+    font-weight: 900; font-size: 22px;
+    margin-bottom: 14px;
+    position: relative;
+  }
+  .up-next-countdown svg {
+    position: absolute; inset: 0;
+    transform: rotate(-90deg);
+  }
+  .up-next-countdown svg circle {
+    fill: none;
+    stroke: var(--primary);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 163;
+    stroke-dashoffset: 163;
+    transition: stroke-dashoffset 0.9s linear;
+  }
+  .up-next-actions { display: flex; gap: 8px; }
+  .up-next-actions button {
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 12px; font-weight: 700;
+  }
+  .up-next-play {
+    background: linear-gradient(135deg, #ff7a18, #ff2d6f);
+    color: white;
+  }
+  .up-next-cancel {
+    background: rgba(255,255,255,0.1);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+</style>
 </head>
 <body>
 
 <header class="nav">
   <div class="container nav-inner">
     <a href="index.html" class="logo">
-      <img src="logo.png" alt="Dremo — Drama. Stories. Connections." class="logo-img"/>
+      <img src="logo.png" alt="Dremo" class="logo-img"/>
     </a>
     <nav class="nav-links" id="navLinks">
       <a href="index.html">Home</a>
@@ -32,116 +128,141 @@
   <div style="margin-top: 24px; color: var(--text-3); font-size: 14px;">
     <a href="index.html" style="color:var(--text-2);">Home</a>
     <span style="margin: 0 8px;">›</span>
-    <a href="series.html" style="color:var(--text-2);">My Boss After Midnight</a>
+    <a href="series.html" style="color:var(--text-2);" id="breadcrumbShow">One Night, Two Brothers</a>
     <span style="margin: 0 8px;">›</span>
-    <span>Episode 1: The Rooftop Bar</span>
+    <span id="breadcrumbEpisode">Episode 1: Two Knocks at Midnight</span>
   </div>
 
   <div class="watch-layout">
 
     <div class="player-stage">
       <div class="player-frame">
-        <div class="player-poster" style="background-image:url('posters/my-boss-after-midnight.png')">
+        <!-- Real video element + poster (poster visible until first play) -->
+        <video id="playerVideo"
+               class="player-video"
+               src="videos/preview-6.mp4"
+               poster="videos/thumbs/preview-6.jpg"
+               playsinline
+               preload="metadata"></video>
+
+        <div class="player-poster" id="playerPoster">
+          <div class="player-poster-bg" id="playerPosterBg" style="background-image:url('posters/one-night-two-brothers.png')"></div>
           <div class="player-overlay-top">
-            <a href="series.html" class="player-back">
+            <a href="series.html" class="player-back" aria-label="Back">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
             </a>
-            <span class="player-ep-label">EP 1 · 1m 24s</span>
-            <button class="player-back" title="Mute">
+            <span class="player-ep-label" id="playerEpLabel">EP 1 · 1m 30s</span>
+            <button class="player-back" id="muteBtn" title="Mute" aria-label="Mute">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
             </button>
           </div>
 
-          <div class="play-button">
+          <div class="play-button" id="playButton">
             <svg width="28" height="28" viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg>
           </div>
 
           <div class="player-side-actions">
             <div class="side-action"><div class="side-action-btn">❤️</div><small>248K</small></div>
-            <div class="side-action"><div class="side-action-btn">💬</div><small>12.4K</small></div>
+            <div class="side-action"><div class="side-action-btn">💬</div><small>12K</small></div>
             <div class="side-action"><div class="side-action-btn">🔖</div><small>Save</small></div>
             <div class="side-action"><div class="side-action-btn">↗</div><small>Share</small></div>
           </div>
 
           <div class="player-info">
-            <h3>My Boss After Midnight</h3>
-            <p>EP 1 · The Rooftop Bar<br/>"Same as last Friday?" · Lila pours his drink. Tonight he finally asks for her name.</p>
+            <h3 id="playerShowTitle">One Night, Two Brothers</h3>
+            <p id="playerShowDesc">EP 1 · Two Knocks at Midnight<br/>"You came back. After everything." · The night both Cole brothers showed up at her door.</p>
             <div class="player-progress"><div class="player-progress-bar"></div></div>
+          </div>
+        </div>
+
+        <!-- Up Next overlay (hidden until current video ends) -->
+        <div class="up-next-overlay" id="upNextOverlay">
+          <div class="up-next-label">⏭ UP NEXT</div>
+          <div class="up-next-poster" style="background-image:url('posters/bound-to-the-alpha.png')"></div>
+          <div class="up-next-title">Bound to the Alpha</div>
+          <div class="up-next-sub">Werewolf Romance · EP 1 · 1m 18s</div>
+          <div class="up-next-countdown" id="upNextCountdown">
+            <svg width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="26"/></svg>
+            <span id="upNextSeconds">5</span>
+          </div>
+          <div class="up-next-actions">
+            <button class="up-next-play" id="upNextPlayNow">▶ Play now</button>
+            <button class="up-next-cancel" id="upNextCancel">Cancel</button>
           </div>
         </div>
       </div>
     </div>
 
     <aside class="watch-sidebar">
-      <h3>My Boss After Midnight</h3>
-      <div class="meta">★ 9.4 · 72 episodes · 🟢 12,447 watching now</div>
+      <h3 id="sidebarShowTitle">One Night, Two Brothers</h3>
+      <div class="meta">★ 9.1 · 56 episodes · 🟢 7,843 watching now</div>
 
       <div class="ep-list">
         <div class="ep-row current">
           <span class="ep-row-num">1</span>
-          <div class="ep-row-thumb"><div class="poster" style="background-image:url('posters/my-boss-after-midnight.png')"></div></div>
-          <div class="ep-row-info"><h5>The Rooftop Bar</h5><span>1m 24s · Free</span></div>
+          <div class="ep-row-thumb"><div class="poster" style="background-image:url('posters/one-night-two-brothers.png')"></div></div>
+          <div class="ep-row-info"><h5>Two Knocks at Midnight</h5><span>1m 30s · Free</span></div>
           <span class="ep-row-icon">▶</span>
         </div>
         <div class="ep-row">
           <span class="ep-row-num">2</span>
-          <div class="ep-row-thumb"><div class="poster" style="background-image:url('posters/my-boss-after-midnight.png')"></div></div>
-          <div class="ep-row-info"><h5>A 30-Day Offer</h5><span>1m 18s · Free</span></div>
+          <div class="ep-row-thumb"><div class="poster" style="background-image:url('posters/one-night-two-brothers.png')"></div></div>
+          <div class="ep-row-info"><h5>The Choice She Already Made</h5><span>1m 22s · Free</span></div>
         </div>
         <div class="ep-row">
           <span class="ep-row-num">3</span>
-          <div class="ep-row-thumb"><div class="poster" style="background-image:url('posters/my-boss-after-midnight.png')"></div></div>
-          <div class="ep-row-info"><h5>Mrs. Cole Reports for Work</h5><span>1m 22s · Free</span></div>
+          <div class="ep-row-thumb"><div class="poster" style="background-image:url('posters/one-night-two-brothers.png')"></div></div>
+          <div class="ep-row-info"><h5>Blood Is Heavier Than a Promise</h5><span>1m 28s · Free</span></div>
         </div>
         <div class="ep-row">
           <span class="ep-row-num">4</span>
-          <div class="ep-row-thumb"><div class="poster" style="background-image:url('posters/my-boss-after-midnight.png')"></div></div>
-          <div class="ep-row-info"><h5>Dinner with the Family</h5><span>1m 30s · Free</span></div>
+          <div class="ep-row-thumb"><div class="poster" style="background-image:url('posters/one-night-two-brothers.png')"></div></div>
+          <div class="ep-row-info"><h5>The Older One Knew First</h5><span>1m 18s · Free</span></div>
         </div>
         <div class="ep-row">
           <span class="ep-row-num">5</span>
-          <div class="ep-row-thumb"><div class="poster" style="background-image:url('posters/my-boss-after-midnight.png')"></div></div>
-          <div class="ep-row-info"><h5>Page Six</h5><span>1m 16s · Free</span></div>
+          <div class="ep-row-thumb"><div class="poster" style="background-image:url('posters/one-night-two-brothers.png')"></div></div>
+          <div class="ep-row-info"><h5>What Father Doesn't Know</h5><span>1m 24s · Free</span></div>
         </div>
         <div class="ep-row">
           <span class="ep-row-num">6</span>
-          <div class="ep-row-thumb"><div class="poster" style="background-image:url('posters/my-boss-after-midnight.png')"></div></div>
-          <div class="ep-row-info"><h5>The Charity Gala</h5><span>1m 28s · Free</span></div>
+          <div class="ep-row-thumb"><div class="poster" style="background-image:url('posters/one-night-two-brothers.png')"></div></div>
+          <div class="ep-row-info"><h5>A Photograph in the Drawer</h5><span>1m 20s · Free</span></div>
         </div>
         <div class="ep-row">
           <span class="ep-row-num">7</span>
-          <div class="ep-row-thumb"><div class="poster" style="background-image:url('posters/my-boss-after-midnight.png')"></div></div>
-          <div class="ep-row-info"><h5>The Drive Home</h5><span>1m 19s · Dremo+</span></div>
+          <div class="ep-row-thumb"><div class="poster" style="background-image:url('posters/one-night-two-brothers.png')"></div></div>
+          <div class="ep-row-info"><h5>The Younger One Was Lying</h5><span>1m 31s · Dremo+</span></div>
           <span class="ep-row-icon">⭐</span>
         </div>
         <div class="ep-row">
           <span class="ep-row-num">8</span>
-          <div class="ep-row-thumb"><div class="poster" style="background-image:url('posters/my-boss-after-midnight.png')"></div></div>
-          <div class="ep-row-info"><h5>An Old Phone Call</h5><span>1m 22s · Dremo+</span></div>
+          <div class="ep-row-thumb"><div class="poster" style="background-image:url('posters/one-night-two-brothers.png')"></div></div>
+          <div class="ep-row-info"><h5>Roses in a Locked Office</h5><span>1m 26s · Dremo+</span></div>
           <span class="ep-row-icon">⭐</span>
         </div>
         <div class="ep-row">
           <span class="ep-row-num">9</span>
-          <div class="ep-row-thumb"><div class="poster" style="background-image:url('posters/my-boss-after-midnight.png')"></div></div>
-          <div class="ep-row-info"><h5>Her Birthday</h5><span>1m 17s · Dremo+</span></div>
+          <div class="ep-row-thumb"><div class="poster" style="background-image:url('posters/one-night-two-brothers.png')"></div></div>
+          <div class="ep-row-info"><h5>The Wedding Was a Trap</h5><span>1m 35s · Dremo+</span></div>
           <span class="ep-row-icon">⭐</span>
         </div>
         <div class="ep-row">
           <span class="ep-row-num">10</span>
-          <div class="ep-row-thumb"><div class="poster" style="background-image:url('posters/my-boss-after-midnight.png')"></div></div>
-          <div class="ep-row-info"><h5>The Lawyer's Office</h5><span>1m 26s · Dremo+</span></div>
+          <div class="ep-row-thumb"><div class="poster" style="background-image:url('posters/one-night-two-brothers.png')"></div></div>
+          <div class="ep-row-info"><h5>One Brother Walked Away</h5><span>1m 22s · Dremo+</span></div>
           <span class="ep-row-icon">⭐</span>
         </div>
         <div class="ep-row">
           <span class="ep-row-num">11</span>
-          <div class="ep-row-thumb"><div class="poster" style="background-image:url('posters/my-boss-after-midnight.png')"></div></div>
-          <div class="ep-row-info"><h5>A Storm at the Hamptons</h5><span>1m 34s · Dremo+</span></div>
+          <div class="ep-row-thumb"><div class="poster" style="background-image:url('posters/one-night-two-brothers.png')"></div></div>
+          <div class="ep-row-info"><h5>The Other One Stayed</h5><span>1m 28s · Dremo+</span></div>
           <span class="ep-row-icon">⭐</span>
         </div>
         <div class="ep-row">
           <span class="ep-row-num">12</span>
-          <div class="ep-row-thumb"><div class="poster" style="background-image:url('posters/my-boss-after-midnight.png')"></div></div>
-          <div class="ep-row-info"><h5>She Knows</h5><span>1m 30s · Dremo+</span></div>
+          <div class="ep-row-thumb"><div class="poster" style="background-image:url('posters/one-night-two-brothers.png')"></div></div>
+          <div class="ep-row-info"><h5>She Picked the Wrong One</h5><span>1m 30s · Dremo+</span></div>
           <span class="ep-row-icon">⭐</span>
         </div>
       </div>
@@ -149,7 +270,7 @@
       <div class="coin-banner">
         <h4>⭐ Unlock everything with Dremo+</h4>
         <p>Just <strong>$9.99/month</strong> for unlimited access to every episode of every show. No coins. No paywalls mid-binge. Cancel anytime.</p>
-        <button>Start 7-Day Free Trial</button>
+        <button class="open-modal">Start 7-Day Free Trial</button>
       </div>
     </aside>
   </div>
@@ -159,7 +280,7 @@
       <div class="comments-head">
         <div class="comments-title">
           💬 Episode 1 Discussion
-          <span class="comments-count"><span class="live-dot"></span>12,438 comments · live now</span>
+          <span class="comments-count"><span class="live-dot"></span>9,481 comments · live now</span>
         </div>
         <div class="comment-sort">
           <button class="sort-btn active">Top</button>
@@ -193,12 +314,12 @@
             <div class="comment-head">
               <span class="comment-author">Jess S.</span>
               <span class="comment-flair flair-superfan">SUPERFAN</span>
-              <span class="comment-time">· 12 min ago</span>
+              <span class="comment-time">· 8 min ago</span>
             </div>
-            <p class="comment-text">OK but the way Adrian's whole demeanor changes when he finally asks her name?? My heart wasn't ready. I've watched this episode FOUR times already and I still gasp. 🩷</p>
+            <p class="comment-text">TWO BROTHERS show up at her door in the SAME NIGHT?? 😭 Whoever picked this opening scene deserves a raise. I knew in 12 seconds I was going to binge this whole thing.</p>
             <div class="comment-actions">
-              <span class="liked">❤️ 2,148</span>
-              <span>💬 Reply (87)</span>
+              <span class="liked">❤️ 2,438</span>
+              <span>💬 Reply (94)</span>
               <span>🔖 Save</span>
               <span>↗ Share</span>
             </div>
@@ -208,9 +329,9 @@
                 <div class="comment-body">
                   <div class="comment-head">
                     <span class="comment-author">Maria R.</span>
-                    <span class="comment-time">· 8 min ago</span>
+                    <span class="comment-time">· 5 min ago</span>
                   </div>
-                  <p class="comment-text">SAME. The pause before he speaks?? The way he sets down the glass?? I rewound it like ten times.</p>
+                  <p class="comment-text">the younger one is hiding something. mark my words by EP 7 we're going to hate him.</p>
                   <div class="comment-actions"><span>❤️ 412</span><span>💬 Reply</span></div>
                 </div>
               </div>
@@ -219,9 +340,9 @@
                 <div class="comment-body">
                   <div class="comment-head">
                     <span class="comment-author">Kira P.</span>
-                    <span class="comment-time">· 5 min ago</span>
+                    <span class="comment-time">· 3 min ago</span>
                   </div>
-                  <p class="comment-text">I need a support group. I am unwell. 😭</p>
+                  <p class="comment-text">team older brother. i'm not even sorry.</p>
                   <div class="comment-actions"><span>❤️ 318</span><span>💬 Reply</span></div>
                 </div>
               </div>
@@ -235,12 +356,12 @@
             <div class="comment-head">
               <span class="comment-author">Helena L.</span>
               <span class="comment-flair flair-creator">WRITER</span>
-              <span class="comment-time">· 1h ago</span>
+              <span class="comment-time">· 42 min ago</span>
             </div>
-            <p class="comment-text">Hi everyone, Helena here — I co-wrote this episode! 🩷 So happy to see you all loving the bar scene. Fun fact: the original draft had Lila spilling the drink. We pulled it because Sofia (the actress) wanted Lila to feel more in control from minute one. Can't wait to hear what you think of EP 5 👀</p>
+            <p class="comment-text">Hi everyone, Helena here — I co-wrote this pilot 🩷 Fun fact: the doorbell scene was originally written as a phone call. We rewrote it the night before the shoot. Worth it?? Tell me in the replies — the team is reading 👀</p>
             <div class="comment-actions">
-              <span class="liked">❤️ 4,892</span>
-              <span>💬 Reply (203)</span>
+              <span class="liked">❤️ 4,217</span>
+              <span>💬 Reply (188)</span>
               <span>🔖 Save</span>
               <span>↗ Share</span>
             </div>
@@ -253,12 +374,12 @@
             <div class="comment-head">
               <span class="comment-author">Dani K.</span>
               <span class="comment-flair flair-superfan">SUPERFAN</span>
-              <span class="comment-time">· 2h ago</span>
+              <span class="comment-time">· 1h ago</span>
             </div>
-            <p class="comment-text">Friendly reminder that we have a NO-SPOILERS rule for new viewers in this thread 🤍 take spoilery takes to the Fandom Room. Let new viewers experience this raw.</p>
+            <p class="comment-text">Friendly reminder — NO-SPOILERS rule in this thread 🤍 New viewers are clicking in every minute. Take spoilery hot takes to the Fandom Room. Let new people experience the doorbell raw.</p>
             <div class="comment-actions">
-              <span>❤️ 1,234</span>
-              <span>💬 Reply (54)</span>
+              <span>❤️ 1,184</span>
+              <span>💬 Reply (51)</span>
               <span>🔖 Save</span>
               <span>↗ Share</span>
             </div>
@@ -270,12 +391,12 @@
           <div class="comment-body">
             <div class="comment-head">
               <span class="comment-author">Amina T.</span>
-              <span class="comment-time">· 3h ago</span>
+              <span class="comment-time">· 2h ago</span>
             </div>
-            <p class="comment-text">first time on Dremo and i don't know if i'm here for the show or the comments at this point 😂 my last app cost me $80 and didn't have anyone to gush with. y'all are EVERYTHING.</p>
+            <p class="comment-text">first time on Dremo. clicked one episode. now i've read 400 comments and i'm somehow rooting for both brothers and crying. y'all are the most chaotic kind family. 🩷</p>
             <div class="comment-actions">
-              <span>❤️ 3,712</span>
-              <span>💬 Reply (128)</span>
+              <span>❤️ 3,514</span>
+              <span>💬 Reply (112)</span>
               <span>🔖 Save</span>
               <span>↗ Share</span>
             </div>
@@ -288,29 +409,12 @@
             <div class="comment-head">
               <span class="comment-author">Rosa G.</span>
               <span class="comment-flair flair-team">DREMO TEAM</span>
-              <span class="comment-time">· 5h ago</span>
+              <span class="comment-time">· 4h ago</span>
             </div>
-            <p class="comment-text">Hi Dremo fam 🩷 EP 7 drops tomorrow at 7am ET — and yes, the kiss everyone's been speculating about is in this batch. Treat the Fandom Room nicely please, the writers are reading.</p>
+            <p class="comment-text">Hi Dremo fam 🩷 EP 7 drops Friday 7am ET. The brothers fight scene everyone's been guessing about is in this batch. Be nice to the writers, they're reading the room.</p>
             <div class="comment-actions">
-              <span>❤️ 8,431</span>
-              <span>💬 Reply (614)</span>
-              <span>🔖 Save</span>
-              <span>↗ Share</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="comment">
-          <div class="avatar av-5">TF</div>
-          <div class="comment-body">
-            <div class="comment-head">
-              <span class="comment-author">Tasha F.</span>
-              <span class="comment-time">· 7h ago</span>
-            </div>
-            <p class="comment-text">unpopular opinion: the BARTENDER is the most underrated character in this show. mark my words, she will be back. 🍸</p>
-            <div class="comment-actions">
-              <span>❤️ 891</span>
-              <span>💬 Reply (76)</span>
+              <span>❤️ 7,824</span>
+              <span>💬 Reply (492)</span>
               <span>🔖 Save</span>
               <span>↗ Share</span>
             </div>
@@ -320,7 +424,53 @@
       </div>
 
       <div style="display:grid;place-items:center;margin-top:32px;">
-        <button class="btn btn-ghost btn-lg">Load 12,432 more comments ↓</button>
+        <button class="btn btn-ghost btn-lg">Load 9,476 more comments ↓</button>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-top: 56px;">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">About this <span class="accent">Show</span></h2>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:48px;">
+      <div>
+        <p style="color: var(--text-2); font-size: 16px; max-width:720px;">
+          On the same night Lena finally chose to stay single, two men knock on her door. Marcus — the older Cole brother she used to love. Dylan — the younger one she swore she never noticed. Both want her. Both are hiding something. And by morning, only one of them will tell her the truth. A 56-episode slow burn about loyalty, lies, and the kind of love that breaks families.
+        </p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:20px;">
+          <span class="chip">Romance</span>
+          <span class="chip">Mafia</span>
+          <span class="chip">Drama</span>
+          <span class="chip">Love Triangle</span>
+          <span class="chip">Slow Burn</span>
+          <span class="chip">Dremo Original</span>
+        </div>
+      </div>
+      <div>
+        <div style="background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:20px;">
+          <h4 style="font-size:13px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:14px;">Cast</h4>
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div style="display:flex;gap:12px;align-items:center;">
+              <div class="avatar av-1">L</div>
+              <div><div style="font-weight:700;font-size:14px;">Lena Vargas</div><div style="font-size:12px;color:var(--text-3);">Played by Camille Reyes</div></div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:center;">
+              <div class="avatar av-3">M</div>
+              <div><div style="font-weight:700;font-size:14px;">Marcus Cole</div><div style="font-size:12px;color:var(--text-3);">Played by Jaxon Reed</div></div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:center;">
+              <div class="avatar av-6">D</div>
+              <div><div style="font-weight:700;font-size:14px;">Dylan Cole</div><div style="font-size:12px;color:var(--text-3);">Played by Theo Marchetti</div></div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:center;">
+              <div class="avatar av-5">V</div>
+              <div><div style="font-weight:700;font-size:14px;">Vincenzo Cole (Father)</div><div style="font-size:12px;color:var(--text-3);">Played by Roman Esposito</div></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -329,33 +479,37 @@
     <div class="section-head">
       <div>
         <h2 class="section-title">Up <span class="accent">Next</span></h2>
-        <div class="section-sub">Keep the binge going with these picks</div>
+        <div class="section-sub">Auto-playing in your queue — Bound to the Alpha drops next</div>
       </div>
     </div>
     <div class="poster-grid compact">
+      <a href="series.html" class="show-card" style="position:relative;">
+        <div class="poster-frame">
+          <div class="poster" style="background-image:url('posters/bound-to-the-alpha.png')">
+            <span class="poster-badge badge-hot">⏭ UP NEXT</span>
+          </div>
+        </div>
+        <div class="show-meta"><div class="show-name">Bound to the Alpha</div><div class="show-tags"><span class="show-rating">★ 9.5</span><span class="dot"></span><span>Werewolf · Romance</span></div></div>
+      </a>
       <a href="series.html" class="show-card">
         <div class="poster-frame"><div class="poster" style="background-image:url('posters/marry-my-enemy.png')"></div></div>
         <div class="show-meta"><div class="show-name">Marry My Enemy</div><div class="show-tags"><span class="show-rating">★ 9.0</span><span class="dot"></span><span>Romance</span></div></div>
       </a>
       <a href="series.html" class="show-card">
-        <div class="poster-frame"><div class="poster" style="background-image:url('posters/one-night-two-brothers.png')"></div></div>
-        <div class="show-meta"><div class="show-name">One Night, Two Brothers</div><div class="show-tags"><span class="show-rating">★ 9.2</span><span class="dot"></span><span>Romance</span></div></div>
-      </a>
-      <a href="series.html" class="show-card">
-        <div class="poster-frame"><div class="poster" style="background-image:url('posters/bound-to-the-alpha.png')"></div></div>
-        <div class="show-meta"><div class="show-name">Bound to the Alpha</div><div class="show-tags"><span class="show-rating">★ 9.5</span><span class="dot"></span><span>Werewolf</span></div></div>
-      </a>
-      <a href="series.html" class="show-card">
-        <div class="poster-frame"><div class="poster" style="background-image:url('posters/midnight-heiress.png')"></div></div>
-        <div class="show-meta"><div class="show-name">The Midnight Heiress</div><div class="show-tags"><span class="show-rating">★ 8.9</span><span class="dot"></span><span>Mystery</span></div></div>
-      </a>
-      <a href="series.html" class="show-card">
-        <div class="poster-frame"><div class="poster" style="background-image:url('posters/the-second-wife.png')"></div></div>
-        <div class="show-meta"><div class="show-name">The Second Wife</div><div class="show-tags"><span class="show-rating">★ 8.8</span><span class="dot"></span><span>Drama</span></div></div>
+        <div class="poster-frame"><div class="poster" style="background-image:url('posters/my-boss-after-midnight.png')"></div></div>
+        <div class="show-meta"><div class="show-name">My Boss After Midnight</div><div class="show-tags"><span class="show-rating">★ 9.4</span><span class="dot"></span><span>CEO Romance</span></div></div>
       </a>
       <a href="series.html" class="show-card">
         <div class="poster-frame"><div class="poster" style="background-image:url('posters/the-last-inheritance.png')"></div></div>
         <div class="show-meta"><div class="show-name">The Last Inheritance</div><div class="show-tags"><span class="show-rating">★ 9.4</span><span class="dot"></span><span>Drama</span></div></div>
+      </a>
+      <a href="series.html" class="show-card">
+        <div class="poster-frame"><div class="poster" style="background-image:url('posters/pregnant-by-the-vampire-king.png')"></div></div>
+        <div class="show-meta"><div class="show-name">Pregnant by the Vampire King</div><div class="show-tags"><span class="show-rating">★ 8.9</span><span class="dot"></span><span>Vampire</span></div></div>
+      </a>
+      <a href="series.html" class="show-card">
+        <div class="poster-frame"><div class="poster" style="background-image:url('posters/midnight-heiress.png')"></div></div>
+        <div class="show-meta"><div class="show-name">The Midnight Heiress</div><div class="show-tags"><span class="show-rating">★ 9.0</span><span class="dot"></span><span>Mystery</span></div></div>
       </a>
     </div>
   </section>
@@ -444,21 +598,136 @@
 </div>
 
 <script>
-  // Episode list active state
+  /* ====== VIDEO PLAYBACK + AUTO-ADVANCE QUEUE ====== */
+  const QUEUE = [
+    {
+      id: 'one-night',
+      show: 'One Night, Two Brothers',
+      episode: 'Episode 1: Two Knocks at Midnight',
+      epLabel: 'EP 1 · 1m 30s',
+      hookLine: '"You came back. After everything." · The night both Cole brothers showed up at her door.',
+      video: 'videos/preview-6.mp4',
+      poster: 'posters/one-night-two-brothers.png',
+      thumb: 'videos/thumbs/preview-6.jpg'
+    },
+    {
+      id: 'bound-alpha',
+      show: 'Bound to the Alpha',
+      episode: 'Episode 1: The Bond She Didn’t Choose',
+      epLabel: 'EP 1 · 1m 18s',
+      hookLine: '"You belong to the pack now." · She wasn’t supposed to be the mate. Then he marked her.',
+      video: 'videos/preview-2.mp4',
+      poster: 'posters/bound-to-the-alpha.png',
+      thumb: 'videos/thumbs/preview-2.jpg'
+    }
+  ];
+  let currentIdx = 0;
+
+  const videoEl     = document.getElementById('playerVideo');
+  const posterEl    = document.getElementById('playerPoster');
+  const posterBgEl  = document.getElementById('playerPosterBg');
+  const playBtn     = document.getElementById('playButton');
+  const muteBtn     = document.getElementById('muteBtn');
+  const epLabelEl   = document.getElementById('playerEpLabel');
+  const titleEl     = document.getElementById('playerShowTitle');
+  const descEl      = document.getElementById('playerShowDesc');
+  const breadcrumbShowEl     = document.getElementById('breadcrumbShow');
+  const breadcrumbEpisodeEl  = document.getElementById('breadcrumbEpisode');
+  const overlay     = document.getElementById('upNextOverlay');
+  const playNowBtn  = document.getElementById('upNextPlayNow');
+  const cancelBtn   = document.getElementById('upNextCancel');
+  const countdownEl = document.getElementById('upNextSeconds');
+  const countdownCircle = document.querySelector('#upNextCountdown svg circle');
+
+  function startPlayback() {
+    posterEl.classList.add('playing');
+    videoEl.muted = false;
+    videoEl.play().catch(() => {
+      // Some browsers block autoplay with audio — fall back to muted
+      videoEl.muted = true;
+      videoEl.play();
+    });
+  }
+
+  function loadAndPlay(idx) {
+    const item = QUEUE[idx];
+    if (!item) return;
+    currentIdx = idx;
+    overlay.classList.remove('show');
+    posterEl.classList.remove('playing');
+
+    videoEl.pause();
+    videoEl.src = item.video;
+    videoEl.poster = item.thumb;
+    videoEl.load();
+    posterBgEl.style.backgroundImage = `url('${item.poster}')`;
+    epLabelEl.textContent = item.epLabel;
+    titleEl.textContent = item.show;
+    descEl.innerHTML = item.episode + '<br/>' + item.hookLine;
+    if (breadcrumbShowEl) breadcrumbShowEl.textContent = item.show;
+    if (breadcrumbEpisodeEl) breadcrumbEpisodeEl.textContent = item.episode;
+    document.title = `Watch · ${item.show} — Dremo`;
+
+    setTimeout(startPlayback, 80);
+  }
+
+  // Play button — first click triggers playback
+  playBtn.addEventListener('click', startPlayback);
+
+  // Mute toggle
+  let countdownTimer = null;
+  muteBtn.addEventListener('click', () => {
+    videoEl.muted = !videoEl.muted;
+  });
+
+  // When video ends → show "Up Next" overlay with countdown
+  videoEl.addEventListener('ended', () => {
+    const nextIdx = currentIdx + 1;
+    if (nextIdx >= QUEUE.length) return; // end of queue
+
+    overlay.classList.add('show');
+    let s = 5;
+    countdownEl.textContent = s;
+    if (countdownCircle) {
+      countdownCircle.style.strokeDashoffset = 163;
+      setTimeout(() => { countdownCircle.style.strokeDashoffset = 0; }, 50);
+    }
+    clearInterval(countdownTimer);
+    countdownTimer = setInterval(() => {
+      s--;
+      countdownEl.textContent = s;
+      if (s <= 0) {
+        clearInterval(countdownTimer);
+        loadAndPlay(nextIdx);
+      }
+    }, 1000);
+  });
+
+  // "Play now" button — skip countdown
+  playNowBtn.addEventListener('click', () => {
+    clearInterval(countdownTimer);
+    loadAndPlay(currentIdx + 1);
+  });
+
+  // "Cancel" — dismiss overlay, stay on current
+  cancelBtn.addEventListener('click', () => {
+    clearInterval(countdownTimer);
+    overlay.classList.remove('show');
+  });
+
+  /* ====== EXISTING WATCH-PAGE BEHAVIORS ====== */
   document.querySelectorAll('.ep-row').forEach(row => {
     row.addEventListener('click', () => {
       document.querySelectorAll('.ep-row').forEach(r => r.classList.remove('current'));
       row.classList.add('current');
     });
   });
-  // Comment sort tabs
   document.querySelectorAll('.sort-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
     });
   });
-  // Comment input — enable Post button only when text is present
   const ci = document.getElementById('commentInput');
   const cb = document.getElementById('postCommentBtn');
   if (ci && cb) {
@@ -469,7 +738,6 @@
       cb.style.cursor = ok ? 'pointer' : 'not-allowed';
     });
   }
-  // Comment action toggles (heart, save)
   document.querySelectorAll('.comment-actions span').forEach(a => {
     a.addEventListener('click', e => {
       const txt = a.textContent || '';
@@ -480,7 +748,6 @@
       }
     });
   });
-
 </script>
 <script src="modal.js"></script>
 
